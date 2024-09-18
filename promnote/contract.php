@@ -48,7 +48,7 @@ if (!isset($_SESSION["authenticated"]) || $_SESSION["authenticated"] !== true) {
             // Calculate total
             const amountDue = parseFloat(formData.get('amount_due')) || 0;
             const total = amountDue ;
-            const url = `https://goaxiomrealty.com/tools/promnote/viewContract.php?${params.toString()}`;
+            const url = `https://goaxiomrealty.com/portal/promnote/viewContract.php?${params.toString()}`;
             
             document.getElementById('generatedUrl').innerHTML = `<p>Generated URL: <a href="${url}" target="_blank">${url}</a></p>`;
         }
