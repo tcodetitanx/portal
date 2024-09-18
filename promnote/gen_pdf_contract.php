@@ -124,9 +124,7 @@ $content = <<<EOD
 <p>IN WITNESS WHEREOF, the parties hereto have executed this Service Agreement as of the day and year first above written.</p>
 
 <p><strong>Axiom Corp</strong><br>
-By: ___________________________<br>
-Name: _________________________<br>
-Title: __________________________</p>
+
 
 <p><strong>Client</strong><br>
 By: <em>{$signature}</em><br>
