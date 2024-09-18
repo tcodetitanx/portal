@@ -1,11 +1,4 @@
 <?php
-session_start();
-
-if (!isset($_SESSION["authenticated"]) || $_SESSION["authenticated"] !== true) {
-    header("Location: ../login.php");
-    exit();
-}
-
 $issuer_name = 'Axiom Corp';
 $issuer_address = '1510 N State Street STE 300, Lindon, UT 84042';
 $issuer_phone = '888 982 8947';
