@@ -48,7 +48,7 @@ Axiom Corp
 
 and
 
-<?php echo $name; ?>
+<?php echo $name; ?><br>
 <?php echo $address; ?>
 ("Client")
 
@@ -98,13 +98,10 @@ This Agreement constitutes the entire understanding between the parties and supe
 IN WITNESS WHEREOF, the parties hereto have executed this Service Agreement as of the day and year first above written.
 
 Axiom Corp
-By: ___________________________
-Name: _________________________
-Title: __________________________
 
 Client
 By: <input type="text" id="signature" class="signature-input" placeholder="Type your full name to sign">
-Name: <?php echo $name; ?>
+Name: <?php echo $name; ?><br>
 Date: <input type="date" id="signatureDate" class="signature-input">
 
         </div>
@@ -132,7 +129,7 @@ Date: <input type="date" id="signatureDate" class="signature-input">
         function generatePDF() {
             const signature = encodeURIComponent(signatureInput.value);
             const signatureDate = encodeURIComponent(signatureDateInput.value);
-            const url = `generate_pdf.php?<?php echo $_SERVER['QUERY_STRING']; ?>&signature=${signature}&signatureDate=${signatureDate}`;
+            const url = `gen_pdf_contract.php?<?php echo $_SERVER['QUERY_STRING']; ?>&signature=${signature}&signatureDate=${signatureDate}`;
             window.open(url, '_blank');
         }
     </script>
