@@ -28,9 +28,6 @@ if (!isset($_SESSION["authenticated"]) || $_SESSION["authenticated"] !== true) {
             <label for="phone">Recipient Phone:</label>
             <input type="text" id="phone" name="phone" required>
 
-            <label for="amount_due">Amount Due:</label>
-            <input type="number" id="amount_due" name="amount_due" required>
-
             <label for="creation_date">Date of contract creation:</label>
             <input type="date" id="creation_date" name="creation_date" required>
             <button type="button" onclick="generateUrl()">Generate URL</button>
