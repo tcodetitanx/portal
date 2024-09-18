@@ -21,9 +21,9 @@ if (!isset($_SESSION["authenticated"]) || $_SESSION["authenticated"] !== true) {
     <h3>Choose a tool:</h3>
     <div class="buttons" style="text-align:left !important; ">
         
-    <button><a href="./promnote/admin.php">Pay or Quit</a></button><br>
-    <button><a href="./promnote/evict.php">Eviction Notice</a></button><br>
-    <button><a href="./promnote/contract.php">Loan Dissolution Contract</a></button><br>
+    <button><a href="./promnote/admin.php">Pay or Quit</a></button><br><br>
+    <button><a href="./promnote/evict.php">Eviction Notice</a></button><br><br>
+    <button><a href="./promnote/contract.php">Loan Dissolution Contract</a></button><br><br>
         
     </div>
     <a href="logout.php">Logout</a>
