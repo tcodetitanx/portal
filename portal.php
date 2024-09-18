@@ -19,12 +19,12 @@ if (!isset($_SESSION["authenticated"]) || $_SESSION["authenticated"] !== true) {
 <div class="container">
     <h2>Welcome to the Portal</h2>
     <h3>Choose a tool:</h3>
-    <div class="buttons">
-        <ul>
-            <li><button><a href="./promnote/admin.php">Pay or Quit</a></button></li>
-            <li><button><a href="./promnote/evict.php">Eviction Notice</a></button></li>
-            <li><button><a href="./promnote/contract.php">Loan Dissolution Contract</a></button></li>
-        </ul>
+    <div class="buttons" style="text-align:left !important; ">
+        
+    <button><a href="./promnote/admin.php">Pay or Quit</a></button><br>
+    <button><a href="./promnote/evict.php">Eviction Notice</a></button><br>
+    <button><a href="./promnote/contract.php">Loan Dissolution Contract</a></button><br>
+        
     </div>
     <a href="logout.php">Logout</a>
 </div>
