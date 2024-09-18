@@ -6,135 +6,136 @@ if (!isset($_SESSION["authenticated"]) || $_SESSION["authenticated"] !== true) {
     exit();
 }
 
+require_once('../invoice/tcpdf/tcpdf.php');
+
+// Create new PDF document
+$pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+
+// Set document information
+$pdf->SetCreator(PDF_CREATOR);
+$pdf->SetAuthor('Axiom Corp');
+$pdf->SetTitle('Service Agreement');
+$pdf->SetSubject('Solar Loan Dissolution Service Agreement');
+$pdf->SetKeywords('Service Agreement, Solar Loan, Dissolution, Legal Document');
+
+// Remove default header/footer
+$pdf->setPrintHeader(false);
+$pdf->setPrintFooter(false);
+
+// Set default monospaced font
+$pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
+
+// Set margins
+$pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
+
+// Set auto page breaks
+$pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+
+// Set image scale factor
+$pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
+
+// Add a page
+$pdf->AddPage();
+
+// Set font
+$pdf->SetFont('helvetica', '', 12);
+
+// Get data from GET parameters
 $issuer_name = 'Axiom Corp';
 $issuer_address = '1510 N State Street STE 300, Lindon, UT 84042';
 $issuer_phone = '888 982 8947';
-$name = $_GET['name'] ?? '';
-$address = $_GET['address'] ?? '';
-$phone = $_GET['phone'] ?? '';
+$name = $_GET['name'];
+$address = $_GET['address'];
+$phone = $_GET['phone'];
 $retainer_fee = '2,200';
 $agreement_date = date('jS \d\a\y \of F, Y');
-?>
+$signature = $_GET['signature'];
+$signatureDate = $_GET['signatureDate'];
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Axiom Corp Service Agreement</title>
-    <link rel="stylesheet" href="styles.css">
-    <style>
-        .preview {
-            white-space: pre-line;
-        }
-        .signature-input {
-            font-style: italic;
-            border: none;
-            border-bottom: 1px solid #000;
-            width: 100%;
-            margin-bottom: 10px;
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h1>Axiom Corp Service Agreement</h1>
-        <div class="preview">
-This Service Agreement ("Agreement") is made and entered into on this <?php echo $agreement_date; ?>, by and between:
+// Create the content
+$content = <<<EOD
+<h1>Service Agreement</h1>
 
-Axiom Corp
-<?php echo $issuer_address; ?>
-("Service Provider")
+<p>This Service Agreement ("Agreement") is made and entered into on this {$agreement_date}, by and between:</p>
 
-and
+<p><strong>Axiom Corp</strong><br>
+{$issuer_address}<br>
+("Service Provider")</p>
 
-<?php echo $name; ?>
-<?php echo $address; ?>
-("Client")
+<p>and</p>
 
-WHEREAS, Client has a solar loan that they wish to dissolve, and Service Provider has the expertise and ability to assist in this matter;
+<p><strong>{$name}</strong><br>
+{$address}<br>
+("Client")</p>
 
-WHEREAS, Client agrees to retain Service Provider for the purpose of contract validity review and credit repair related to the dissolution of the solar loan;
+<p>WHEREAS, Client has a solar loan that they wish to dissolve, and Service Provider has the expertise and ability to assist in this matter;</p>
 
-NOW, THEREFORE, the parties agree as follows:
+<p>WHEREAS, Client agrees to retain Service Provider for the purpose of contract validity review and credit repair related to the dissolution of the solar loan;</p>
 
-1. Scope of Services
-Service Provider agrees to provide the following services:
-a. Review the solar loan contract for validity and potential for dissolution.
-b. Assist Client in credit repair procedures, as needed, to facilitate loan dissolution.
+<p>NOW, THEREFORE, the parties agree as follows:</p>
 
-2. Retainer Fee
-Client agrees to pay Service Provider a non-refundable retainer fee of $<?php echo $retainer_fee; ?> ("Retainer Fee"). This fee covers the cost of the services specified in Section 1.
+<h2>1. Scope of Services</h2>
+<p>Service Provider agrees to provide the following services:</p>
+<ol type="a">
+    <li>Review the solar loan contract for validity and potential for dissolution.</li>
+    <li>Assist Client in credit repair procedures, as needed, to facilitate loan dissolution.</li>
+</ol>
 
-3. Payment Terms
-a. The Retainer Fee is due and payable upon the signing of this Agreement.
-b. The Retainer Fee will be applied toward the services outlined in Section 1.
+<h2>2. Retainer Fee</h2>
+<p>Client agrees to pay Service Provider a non-refundable retainer fee of \${$retainer_fee} ("Retainer Fee"). This fee covers the cost of the services specified in Section 1.</p>
 
-4. 90-Day Money-Back Guarantee
-a. If, within 90 days from the date of this Agreement, Service Provider has not successfully dissolved the Client's solar loan, and the Client is dissatisfied with the progress or results, the Client may request a refund of the Retainer Fee.
-b. To be eligible for the refund, Client must provide written notice of dissatisfaction no later than the 90th day following the execution of this Agreement.
-c. Upon receipt of such notice, Service Provider will issue a refund of the full $<?php echo $retainer_fee; ?> Retainer Fee within 30 days, provided no dissolution of the solar loan has occurred.
-d. This clause cannot be executed if the case is currently in litigation or if the case is in docket.
+<h2>3. Payment Terms</h2>
+<ol type="a">
+    <li>The Retainer Fee is due and payable upon the signing of this Agreement.</li>
+    <li>The Retainer Fee will be applied toward the services outlined in Section 1.</li>
+</ol>
 
-5. Client Responsibilities
-Client agrees to:
-a. Provide all necessary documentation regarding their solar loan and credit history.
-b. Cooperate with Service Provider to facilitate the loan dissolution process.
+<h2>4. 90-Day Money-Back Guarantee</h2>
+<ol type="a">
+    <li>If, within 90 days from the date of this Agreement, Service Provider has not successfully dissolved the Client's solar loan, and the Client is dissatisfied with the progress or results, the Client may request a refund of the Retainer Fee.</li>
+    <li>To be eligible for the refund, Client must provide written notice of dissatisfaction no later than the 90th day following the execution of this Agreement.</li>
+    <li>Upon receipt of such notice, Service Provider will issue a refund of the full \${$retainer_fee} Retainer Fee within 30 days, provided no dissolution of the solar loan has occurred.</li>
+    <li>This clause cannot be executed if the case is currently in litigation or if the case is in docket.</li>
+</ol>
 
-6. Termination of Agreement
-This Agreement may be terminated by either party upon written notice:
-a. By the Client: If Client is not satisfied with the services or outcome within the 90-day period, as outlined in Section 4.
-b. By the Service Provider: If Client fails to provide necessary documentation or cooperate with the process.
+<h2>5. Client Responsibilities</h2>
+<p>Client agrees to:</p>
+<ol type="a">
+    <li>Provide all necessary documentation regarding their solar loan and credit history.</li>
+    <li>Cooperate with Service Provider to facilitate the loan dissolution process.</li>
+</ol>
 
-7. No Guarantee of Outcome
-While Service Provider will use its expertise to assist in dissolving the Client's solar loan, no specific outcome is guaranteed except for the return of the Retainer Fee if conditions outlined in Section 4 are met.
+<h2>6. Termination of Agreement</h2>
+<p>This Agreement may be terminated by either party upon written notice:</p>
+<ol type="a">
+    <li>By the Client: If Client is not satisfied with the services or outcome within the 90-day period, as outlined in Section 4.</li>
+    <li>By the Service Provider: If Client fails to provide necessary documentation or cooperate with the process.</li>
+</ol>
 
-8. Governing Law
-This Agreement shall be governed by and construed in accordance with the laws of the State of Utah.
+<h2>7. No Guarantee of Outcome</h2>
+<p>While Service Provider will use its expertise to assist in dissolving the Client's solar loan, no specific outcome is guaranteed except for the return of the Retainer Fee if conditions outlined in Section 4 are met.</p>
 
-9. Entire Agreement
-This Agreement constitutes the entire understanding between the parties and supersedes all prior discussions, agreements, or understandings of any kind. Any modifications to this Agreement must be made in writing and signed by both parties.
+<h2>8. Governing Law</h2>
+<p>This Agreement shall be governed by and construed in accordance with the laws of the State of Utah.</p>
 
-IN WITNESS WHEREOF, the parties hereto have executed this Service Agreement as of the day and year first above written.
+<h2>9. Entire Agreement</h2>
+<p>This Agreement constitutes the entire understanding between the parties and supersedes all prior discussions, agreements, or understandings of any kind. Any modifications to this Agreement must be made in writing and signed by both parties.</p>
 
-Axiom Corp
-By: ___________________________
-Name: _________________________
-Title: __________________________
+<p>IN WITNESS WHEREOF, the parties hereto have executed this Service Agreement as of the day and year first above written.</p>
 
-Client
-By: <input type="text" id="signature" class="signature-input" placeholder="Type your full name to sign">
-Name: <?php echo $name; ?>
-Date: <input type="date" id="signatureDate" class="signature-input">
+<p><strong>Axiom Corp</strong><br>
+By: ___________________________<br>
+Name: _________________________<br>
+Title: __________________________</p>
 
-        </div>
-        <div class="buttons">
-            <button onclick="generatePDF()" id="generatePdfBtn" disabled>Download PDF</button>
-        </div>
-    </div>
+<p><strong>Client</strong><br>
+By: <em>{$signature}</em><br>
+Name: {$name}<br>
+Date: <em>{$signatureDate}</em></p>
+EOD;
 
-    <script>
-        const signatureInput = document.getElementById('signature');
-        const signatureDateInput = document.getElementById('signatureDate');
-        const generatePdfBtn = document.getElementById('generatePdfBtn');
+// Write the content
+$pdf->writeHTML($content, true, false, true, false, '');
 
-        function checkFields() {
-            if (signatureInput.value.trim() !== '' && signatureDateInput.value !== '') {
-                generatePdfBtn.disabled = false;
-            } else {
-                generatePdfBtn.disabled = true;
-            }
-        }
-
-        signatureInput.addEventListener('input', checkFields);
-        signatureDateInput.addEventListener('input', checkFields);
-
-        function generatePDF() {
-            const signature = encodeURIComponent(signatureInput.value);
-            const signatureDate = encodeURIComponent(signatureDateInput.value);
-            const url = `generate_pdf.php?<?php echo $_SERVER['QUERY_STRING']; ?>&signature=${signature}&signatureDate=${signatureDate}`;
-            window.open(url, '_blank');
-        }
-    </script>
-</body>
-</html>
+// Output the PDF
+$pdf->Output('service_agreement.pdf', 'I');
