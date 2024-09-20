@@ -40,11 +40,11 @@ if (!isset($_SESSION["authenticated"]) || $_SESSION["authenticated"] !== true) {
         function generateUrl() {
             const form = document.getElementById('form');
             const formData = new FormData(form);
-            const params = new URLSearchParams(formData);
-            
-            // Calculate total
-            const amountDue = parseFloat(formData.get('amount_due')) || 0;
-            const total = amountDue ;
+
+            let params = new URLSearchParams();
+            formData.forEach((value, key) => {
+                params.append(key, encodeURIComponent(value)); // Only encode values, not keys
+            });
             const url = `https://goaxiomrealty.com/portal/promnote/viewContract.php?${params.toString()}`;
             
             document.getElementById('generatedUrl').innerHTML = `<p>Generated URL: <a href="${url}" target="_blank">${url}</a></p>`;

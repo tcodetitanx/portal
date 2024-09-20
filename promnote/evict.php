@@ -62,18 +62,18 @@ if (!isset($_SESSION["authenticated"]) || $_SESSION["authenticated"] !== true) {
     </div>
 
     <script>
-    function generateUrl() {
-        const form = document.getElementById('form');
-        const formData = new FormData(form);
+function generateUrl() {
+    const form = document.getElementById('form');
+    const formData = new FormData(form);
 
-        let params = new URLSearchParams();
-        formData.forEach((value, key) => {
-            params.append(encodeURIComponent(key), encodeURIComponent(value));
-        });
+    let params = new URLSearchParams();
+    formData.forEach((value, key) => {
+        params.append(key, encodeURIComponent(value)); // Only encode values, not keys
+    });
 
-        const url = `https://goaxiomrealty.com/portal/promnote/view_eviction.php?${params.toString()}`;
-        document.getElementById('generatedUrl').innerHTML = `<p>Generated URL: <a href="${url}" target="_blank">${url}</a></p>`;
-    }
-    </script>
+    const url = `https://goaxiomrealty.com/portal/promnote/view_eviction.php?${params.toString()}`;
+    document.getElementById('generatedUrl').innerHTML = `<p>Generated URL: <a href="${url}" target="_blank">${url}</a></p>`;
+}
+</script>
 </body>
 </html>
