@@ -51,7 +51,7 @@ $pdf->SetFont('helvetica', '', 12);
     <div class="container border rounded">
         <div class="row">
             <div class="col-lg-12 p-4">
-                <img src="assets/images/logo.jpg" alt="logo">
+                <img src="../assets/images/logo.jpg" alt="logo">
             </div>
         </div>
         <div class="row mt-4">
@@ -250,7 +250,7 @@ $pdf->SetFont('helvetica', '', 12);
         </div>
         <div class="row">
             <div class="col-lg-12 p-4 text-end">
-                <img src="assets/images/logo.jpg" alt="logo">
+                <img src="../assets/images/logo.jpg" alt="logo">
             </div>
         </div>
         <div class="row">
@@ -348,7 +348,7 @@ $pdf->SetFont('helvetica', '', 12);
           
             <div class="row mt-5">
                 <div class="col-lg-12 p-4 text-end">
-                    <img src="assets/images/logo.jpg" alt="logo">
+                    <img src="../assets/images/logo.jpg" alt="logo">
                 </div>
                 <div class="col-lg-12 text-center mt-5">
                     <h4 class="heading fw-bold"> Customized Service Plan and Proposal </h4>
@@ -369,7 +369,7 @@ $pdf->SetFont('helvetica', '', 12);
         <div class="row my-4">
             <div class="col-lg-7 text-end"></div>
             <div class="col-lg-5 text-end">
-                <img class="img-responsive pe-2" style="width: 100%; margin-top: 55px;" src="assets/images/stamp-logo.jpg" alt="">
+                <img class="img-responsive pe-2" style="width: 100%; margin-top: 55px;" src="../assets/images/stamp-logo.jpg" alt="">
             </div>
             <div class="col-lg-12 px-4">
                 <p>Dear <?php echo $deanName ?>,</p>
@@ -391,7 +391,7 @@ $pdf->SetFont('helvetica', '', 12);
             </div>
             <div class="col-lg-3"> </div> 20
             <div class="col-lg-9">
-                <img class="img-responsive" style="width: 100%; margin-top: -80px;" src="assets/images/tap.jpg" alt="clean">
+                <img class="img-responsive" style="width: 100%; margin-top: -80px;" src="../assets/images/tap.jpg" alt="clean">
             </div>
         </div>
         <hr>
@@ -420,7 +420,7 @@ $pdf->SetFont('helvetica', '', 12);
                 </p>
             </div>
             <div class="col-lg-7">
-                <img class="img-responsive" style="width: 100%" src="assets/images/remove germ.jpg" alt="clean">
+                <img class="img-responsive" style="width: 100%" src="../assets/images/remove germ.jpg" alt="clean">
             </div>
             <div class="col-lg-12">
                 <h3 class="border-bottom border-black d-inline-block">
@@ -478,7 +478,7 @@ $pdf->SetFont('helvetica', '', 12);
 
         <div class="row my-4">
                 <div class="col-lg-12 p-4 text-center">
-                    <img class="img-responsive" src="assets/images/logo.jpg" alt="logo">
+                    <img class="img-responsive" src="../assets/images/logo.jpg" alt="logo">
                 </div>
 
                 <div class="col-lg-12 my-4">
@@ -701,7 +701,7 @@ $pdf->SetFont('helvetica', '', 12);
                 <h3> <?php echo $brandName ?> services, and how often they will be done at your facility.</h3>
             </div>
             <div class="col-lg-12 text-start mt-4">
-                <img class="img-responsive" style="width: 20%;" src="assets/images/dusting.jpg" alt="">
+                <img class="img-responsive" style="width: 20%;" src="../assets/images/dusting.jpg" alt="">
             </div>
             <div class="col-lg-12 text-center">
                 <h3> DUSTING AND DESINFICATION </h3>
@@ -765,7 +765,7 @@ $pdf->SetFont('helvetica', '', 12);
 
          
             <div class="col-lg-12 text-start mt-4">
-                <img class="img-responsive" style="width: 20%;" src="assets/images/vacum.jpg" alt="">
+                <img class="img-responsive" style="width: 20%;" src="../assets/images/vacum.jpg" alt="">
             </div>
             <div class="col-lg-12 text-center">
                 <h3>  CARPET AND FLOOR CARE </h3>
@@ -804,7 +804,7 @@ $pdf->SetFont('helvetica', '', 12);
         </div> <br> <hr>
         <div class="row my-4">
             <div class="col-lg-12 text-start mt-4">
-                <img class="img-responsive" style="width: 18%;" src="assets/images/restroom.jpg" alt="">
+                <img class="img-responsive" style="width: 18%;" src="../assets/images/restroom.jpg" alt="">
             </div>
             <div class="col-lg-12 text-center">
                 <h3> RESTROOM SERVICES </h3>
@@ -836,7 +836,7 @@ $pdf->SetFont('helvetica', '', 12);
             </div>
 
             <div class="col-lg-12 text-start mt-4">
-                <img class="img-responsive" style="width: 18%;" src="assets/images/trash.jpg" alt="">
+                <img class="img-responsive" style="width: 18%;" src="../assets/images/trash.jpg" alt="">
             </div>
             <div class="col-lg-12 text-center">
                 <h3> TRASH AND MISCELLANEOUS </h3>
@@ -875,7 +875,7 @@ $pdf->SetFont('helvetica', '', 12);
 
         <div class="row my-4">
             <div class="col-lg-12 text-start mt-4">
-                <img class="img-responsive" style="width: 18%;" src="assets/images/kitchen.jpg" alt="">
+                <img class="img-responsive" style="width: 18%;" src="../assets/images/kitchen.jpg" alt="">
             </div>
             <div class="col-lg-12 text-center">
                 <h3> KITCHEN AREAS </h3>
@@ -913,13 +913,13 @@ $pdf->SetFont('helvetica', '', 12);
             </div>
             <div class="col-lg-12 text-center mt-4"> 
                 <h3> Health - Based Cleaninq System </h3>
-                <img class="img-responsive" style="width: 96%;" src="assets/images/whyKillgerm.jpg" alt="">
+                <img class="img-responsive" style="width: 96%;" src="../assets/images/whyKillgerm.jpg" alt="">
             </div>
         </div> <br> <hr>
 
         <div class="row">
             <div class="col-lg-12">
-                <img class="img-responsive" style="width:20%;" src="assets/images/closingTask.jpg" alt="">
+                <img class="img-responsive" style="width:20%;" src="../assets/images/closingTask.jpg" alt="">
             </div>
             <div class="col-lg-12 text-center">
                 <h3> Closing Task: </h3>
@@ -957,7 +957,7 @@ $pdf->SetFont('helvetica', '', 12);
             </div>
             <div class="col-lg-12 text-center mt-4"> 
                 <h3> Our National Accounts </h3>
-                <img class="img-responsive" style="width: 96%;" src="assets/images/companies.jpg" alt="">
+                <img class="img-responsive" style="width: 96%;" src="../assets/images/companies.jpg" alt="">
             </div>
             <div class="col-lg-12 mt-4">
                 <div class="mb-3">

@@ -60,7 +60,7 @@ else
 // Create the content
 $content = <<<EOD
         
-        <img src="assets/images/logo.jpg" alt="logo">
+        <img src="../assets/images/logo.jpg" alt="logo">
          <p> </p>
         <h3>$contract_provider</h3>
         <p style="font-size:14px">The Undersigned ($customerName) hereby accepts the proposal $contract_provider, and the parties agree that $contract_provider's franchises and/or subcontractors will supply ($contract_provider System Services for CUSTOMER'S headquarters located at:</p>
@@ -203,7 +203,7 @@ $content = <<<EOD
         <p></p>
      
             
-        <img src="assets/images/logo.jpg" alt="logo">
+        <img src="../assets/images/logo.jpg" alt="logo">
         <p></p>
         <h4 class="heading fw-bold">$contract_provider Safety and Security Document</h4>
         <p style="font-size:14px">The $contract_provider System places great emphasis on safety and security. $contract_provider Business Owners are trained and certified on Personal Safety, Customer Account Security, Emergency Actions, Accident Investigation and Reporting, and other aspects of cleaning your facility in a safe and secure manner.</p>
@@ -254,7 +254,7 @@ $content = <<<EOD
         </ol>
           
         
-          <img align="right" src="assets/images/logo.jpg" alt="logo">
+          <img align="right" src="../assets/images/logo.jpg" alt="logo">
            <p></p> <p></p> <p>
             <h2 align="center">Customized Service Plan and Proposal</h2>
             <p align="center" style="font-size:36px; font-weight:bold">Offices of</p>
@@ -269,7 +269,7 @@ $content = <<<EOD
             <p></p>
 
       
-          <img align="right" src="assets/images/logo.jpg" alt="logo">
+          <img align="right" src="../assets/images/logo.jpg" alt="logo">
           <p>Dear $customerName,</p>
           <p style="font-size:14px">Thank you for the opportunity to present this proposal, which we have customized to your needs and requests.</p>
           <p style="font-size:14px">The $contract_provider Health-Based Cleaning System Program is the first choice for offices, schools, daycares, retail businesses, restaurants, gyms, outpatient and ambulatory surgery centers, and Fortune 500 companies across the country. With the $contract_provider® Program your facility will look clean and smell clean and actually be a cleaner, healthier place for everyone.</p>
@@ -308,7 +308,7 @@ $content = <<<EOD
                     </div>
                 </td>
                 <td width="54%">
-                    <img src="assets/images/remove germ.jpg" alt="clean">
+                    <img src="../assets/images/remove germ.jpg" alt="clean">
                 </td>
             </tr>
         </table> 
@@ -336,7 +336,7 @@ $content = <<<EOD
         </div> 
         <p></p> <p></p> <p></p> <p></p> <p></p> <p></p> <p></p> <p></p>
         <div>
-            <img class="img-responsive" src="assets/images/logo.jpg" alt="logo">
+            <img class="img-responsive" src="../assets/images/logo.jpg" alt="logo">
             <h2>Areas to be cleaned: 5X a week</h2>
             <table width="100%">
                 <tr>
@@ -488,7 +488,7 @@ $content = <<<EOD
              <br> 
             <table width="100%">
                 <tr>
-                    <td width="30%"><img class="img-responsive" src="assets/images/dusting.jpg" alt="dusting"></td> 
+                    <td width="30%"><img class="img-responsive" src="../assets/images/dusting.jpg" alt="dusting"></td> 
                     <td width="68%"><p></p> <h3>DUSTING AND DISINFECTION</h3></td> 
                 </tr>
             </table>
@@ -552,7 +552,7 @@ $content = <<<EOD
             <p> </p>
             <table width="100%">
                 <tr>
-                    <td width="30%"> <img class="img-responsive" src="assets/images/vacum.jpg" alt=vacum""> </td> 
+                    <td width="30%"> <img class="img-responsive" src="../assets/images/vacum.jpg" alt=vacum""> </td> 
                     <td width="68%"> <p> </p> <h3> CARPET AND FLOOR CARE </h3>  </td> 
                 </tr>
             </table>
@@ -594,7 +594,7 @@ $content = <<<EOD
         <div style="font-size:13px">
             <table width="100%">
                 <tr>
-                    <td width="30%"> <img class="img-responsive" src="assets/images/restroom.jpg" alt="restroom">  </td> 
+                    <td width="30%"> <img class="img-responsive" src="../assets/images/restroom.jpg" alt="restroom">  </td> 
                     <td width="68%"> <p> </p> <h3> RESTROOM SERVICES </h3> </td> 
                 </tr>
             </table>
@@ -627,7 +627,7 @@ $content = <<<EOD
              <p> </p>
             <table width="100%">
                 <tr>
-                    <td width="30%"> <img class="img-responsive" src="assets/images/trash.jpg" alt="trash"> </td> 
+                    <td width="30%"> <img class="img-responsive" src="../assets/images/trash.jpg" alt="trash"> </td> 
                     <td width="68%"> <p> </p> <h3> TRASH AND MISCELLANEOUS </h3> </td> 
                 </tr>
             </table>
@@ -664,7 +664,7 @@ $content = <<<EOD
         <div style="font-size:13px">
             <table width="100%">
                 <tr>
-                    <td width="30%"> <img class="img-responsive" src="assets/images/kitchen.jpg" alt="kitchen"> </td> 
+                    <td width="30%"> <img class="img-responsive" src="../assets/images/kitchen.jpg" alt="kitchen"> </td> 
                     <td width="68%"> <p> </p>  <h3> KITCHEN AREAS </h3> </td> 
                 </tr>
             </table>
@@ -705,7 +705,7 @@ $content = <<<EOD
         <div style="font-size:13px">
             <table width="100%">
                 <tr>
-                    <td width="30%"> <img src="assets/images/closingTask.jpg" alt="closingtask">  <br> </td> 
+                    <td width="30%"> <img src="../assets/images/closingTask.jpg" alt="closingtask">  <br> </td> 
                     <td width="60%"> <p> </p>  <p> </p> <h3> Closing Tasks: </h3> </td> 
                 </tr>
             </table>

@@ -61,7 +61,7 @@ else
     <div class="container border rounded">
         <div class="row">
             <div class="col-lg-12 p-4">
-                <img src="assets/images/logo.jpg" alt="logo">
+                <img src="../assets/images/logo.jpg" alt="logo">
             </div>
         </div>
         <div class="row mt-4">
@@ -262,7 +262,7 @@ else
         </div>
         <div class="row">
             <div class="col-lg-12 p-4 text-end">
-                <img src="assets/images/logo.jpg" alt="logo">
+                <img src="../assets/images/logo.jpg" alt="logo">
             </div>
         </div>
         <div class="row">
@@ -360,7 +360,7 @@ else
           
             <div class="row mt-5">
                 <div class="col-lg-12 p-4 text-end">
-                    <img src="assets/images/logo.jpg" alt="logo">
+                    <img src="../assets/images/logo.jpg" alt="logo">
                 </div>
                 <div class="col-lg-12 text-center mt-5">
                     <h4 class="heading fw-bold"> Customized Service Plan and Proposal </h4>
@@ -381,7 +381,7 @@ else
         <div class="row my-4">
             <div class="col-lg-7 text-end"></div>
             <div class="col-lg-5 text-end">
-                <img class="img-responsive pe-2" style="width: 100%; margin-top: 55px;" src="assets/images/stamp-logo.jpg" alt="">
+                <img class="img-responsive pe-2" style="width: 100%; margin-top: 55px;" src="../assets/images/stamp-logo.jpg" alt="">
             </div>
             <div class="col-lg-12 px-4">
                 <p>Dear <?php echo $escName ?>,</p>
@@ -429,7 +429,7 @@ else
                 </p>
             </div>
             <div class="col-lg-7">
-                <img class="img-responsive" style="width: 100%" src="assets/images/remove germ.jpg" alt="clean">
+                <img class="img-responsive" style="width: 100%" src="../assets/images/remove germ.jpg" alt="clean">
             </div>
             <div class="col-lg-12">
                 <h3 class="border-bottom border-black d-inline-block">
@@ -487,7 +487,7 @@ else
 
         <div class="row my-4">
                 <div class="col-lg-12 p-4 text-center">
-                    <img class="img-responsive" src="assets/images/logo.jpg" alt="logo">
+                    <img class="img-responsive" src="../assets/images/logo.jpg" alt="logo">
                 </div>
 
                 <div class="col-lg-12 my-4">
@@ -710,7 +710,7 @@ else
                 <h3> <?php echo $contract_provider ?> services, and how often they will be done at your facility.</h3>
             </div>
             <div class="col-lg-12 text-start mt-4">
-                <img class="img-responsive" style="width: 20%;" src="assets/images/dusting.jpg" alt="">
+                <img class="img-responsive" style="width: 20%;" src="../assets/images/dusting.jpg" alt="">
             </div>
             <div class="col-lg-12 text-center">
                 <h3> DUSTING AND DESINFICATION </h3>
@@ -774,7 +774,7 @@ else
 
          
             <div class="col-lg-12 text-start mt-4">
-                <img class="img-responsive" style="width: 20%;" src="assets/images/vacum.jpg" alt="">
+                <img class="img-responsive" style="width: 20%;" src="../assets/images/vacum.jpg" alt="">
             </div>
             <div class="col-lg-12 text-center">
                 <h3>  CARPET AND FLOOR CARE </h3>
@@ -813,7 +813,7 @@ else
         </div> <br> <hr>
         <div class="row my-4">
             <div class="col-lg-12 text-start mt-4">
-                <img class="img-responsive" style="width: 18%;" src="assets/images/restroom.jpg" alt="">
+                <img class="img-responsive" style="width: 18%;" src="../assets/images/restroom.jpg" alt="">
             </div>
             <div class="col-lg-12 text-center">
                 <h3> RESTROOM SERVICES </h3>
@@ -845,7 +845,7 @@ else
             </div>
 
             <div class="col-lg-12 text-start mt-4">
-                <img class="img-responsive" style="width: 18%;" src="assets/images/trash.jpg" alt="">
+                <img class="img-responsive" style="width: 18%;" src="../assets/images/trash.jpg" alt="">
             </div>
             <div class="col-lg-12 text-center">
                 <h3> TRASH AND MISCELLANEOUS </h3>
@@ -884,7 +884,7 @@ else
 
         <div class="row my-4">
             <div class="col-lg-12 text-start mt-4">
-                <img class="img-responsive" style="width: 18%;" src="assets/images/kitchen.jpg" alt="">
+                <img class="img-responsive" style="width: 18%;" src="../assets/images/kitchen.jpg" alt="">
             </div>
             <div class="col-lg-12 text-center">
                 <h3> KITCHEN AREAS </h3>
@@ -925,7 +925,7 @@ else
 
         <div class="row">
             <div class="col-lg-12">
-                <img class="img-responsive" style="width:20%;" src="assets/images/closingTask.jpg" alt="">
+                <img class="img-responsive" style="width:20%;" src="../assets/images/closingTask.jpg" alt="">
             </div>
             <div class="col-lg-12 text-center">
                 <h3> Closing Task: </h3>
