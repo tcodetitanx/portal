@@ -15,7 +15,7 @@ $agreement_date = date('jS \d\a\y \of F, Y');
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Axiom Corp Service Agreement</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="../assets/stylesLight.css">
     <style>
         .preview {
             white-space: pre-line;

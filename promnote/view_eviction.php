@@ -24,7 +24,7 @@ $signature = "<em>" . $landlord_name . "</em>";
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Eviction Notice</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="../assets/stylesLight.css">
     <style>
         .preview {
             white-space: pre-line;

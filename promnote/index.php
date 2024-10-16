@@ -20,7 +20,7 @@ $eviction_date = $_GET['eviction_date'] ?? '';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Promissory Note and Eviction Notice Preview</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="../assets/stylesLight.css">
     <style>
         .preview {
             white-space: pre-line;

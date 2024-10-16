@@ -13,7 +13,7 @@ if (!isset($_SESSION["authenticated"]) || $_SESSION["authenticated"] !== true) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Eviction Notice</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="../assets/stylesLight.css">
 </head>
 <body>
     <div class="container">
@@ -71,7 +71,7 @@ function generateUrl() {
         params.append(key, encodeURIComponent(value)); // Only encode values, not keys
     });
 
-    const url = `https://goaxiomrealty.com/portal/promnote/view_eviction.php?${params.toString()}`;
+    const url = `view_eviction.php?${params.toString()}`;
     document.getElementById('generatedUrl').innerHTML = `<p>Generated URL: <a href="${url}" target="_blank">${url}</a></p>`;
 }
 </script>
