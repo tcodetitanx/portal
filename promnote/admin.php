@@ -75,7 +75,7 @@ if (!isset($_SESSION["authenticated"]) || $_SESSION["authenticated"] !== true) {
             
             params.append('total', total.toFixed(2));
 
-            const url = `https://goaxiomrealty.com/portal/promnote/?${params.toString()}`;
+            const url = `promnote/?${params.toString()}`;
             
             document.getElementById('generatedUrl').innerHTML = `<p>Generated URL: <a href="${url}" target="_blank">${url}</a></p>`;
         }

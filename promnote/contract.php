@@ -45,7 +45,7 @@ if (!isset($_SESSION["authenticated"]) || $_SESSION["authenticated"] !== true) {
             formData.forEach((value, key) => {
                 params.append(key, encodeURIComponent(value)); // Only encode values, not keys
             });
-            const url = `https://goaxiomrealty.com/portal/promnote/viewContract.php?${params.toString()}`;
+            const url = `viewContract.php?${params.toString()}`;
             
             document.getElementById('generatedUrl').innerHTML = `<p>Generated URL: <a href="${url}" target="_blank">${url}</a></p>`;
         }
