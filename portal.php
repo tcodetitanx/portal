@@ -20,11 +20,25 @@ if (!isset($_SESSION["authenticated"]) || $_SESSION["authenticated"] !== true) {
     <h2>Welcome to the Portal</h2>
     <h3>Choose a tool:</h3>
     <div class="buttons" style="text-align:left;">
-        <button class="tool-button"><a href="./promnote/admin.php">Pay or Quit</a></button><br><br>
-        <button class="tool-button"><a href="./promnote/evict.php">Eviction Notice</a></button><br><br>
-        <button class="tool-button"><a href="./promnote/contract.php">Loan Dissolution Contract</a></button><br><br>
-        <button class="tool-button"><a href="./clean/">Cleaning Contract</a></button><br><br>
-    </div>
+    <a href="./promnote/admin.php" style="text-decoration:none;">
+        <button class="tool-button">Pay or Quit</button>
+    </a><br><br>
+
+    <a href="./promnote/evict.php" style="text-decoration:none;">
+        <button class="tool-button">Eviction Notice</button>
+    </a><br><br>
+
+    <a href="./promnote/contract.php" style="text-decoration:none;">
+        <button class="tool-button">Loan Dissolution Contract</button>
+    </a><br><br>
+
+    <a href="./clean/" style="text-decoration:none;">
+        <button class="tool-button">Cleaning Contract</button>
+    </a><br><br>
+
+    <a href="./mlpa/mlpa.php" style="text-decoration:none;">
+        <button class="tool-button">MLPA Page</button>
+    </a><br><br>
 </div>
 </body>
 </html>
