@@ -109,8 +109,8 @@ if (!isset($_SESSION["authenticated"]) || $_SESSION["authenticated"] !== true) {
             <label for="installationstate">Installation State:</label>
             <input type="text" id="installationstate" name="installationstate" required>
 
-            <label for="codepropertyzip">Code Property Zip:</label>
-            <input type="text" id="codepropertyzip" name="codepropertyzip" required>
+            <label for="propertyzipcode">Property Zip Code:</label>
+            <input type="text" id="propertyzipcode" name="propertyzipcode" required>
 
             <label for="installationzip">Installation Zip:</label>
             <input type="text" id="installationzip" name="installationzip" required>
