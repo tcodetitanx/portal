@@ -38,16 +38,18 @@ function sanitizeInput($input) {
     return htmlspecialchars(trim($input), ENT_QUOTES, 'UTF-8');
 }
 
+// Get data from GET parameters
 $issuer_name = 'Axiom Corp';
 $issuer_address = '1510 N State Street STE 300, Lindon, UT 84042';
 $issuer_phone = '888 982 8947';
-$name = isset($_GET['name']) ? sanitizeInput($_GET['name']) : 'Client';
-$address = isset($_GET['address']) ? sanitizeInput($_GET['address']) : 'Address';
-$phone = isset($_GET['phone']) ? sanitizeInput($_GET['phone']) : 'Phone';
+$name = urldecode($_GET['name']);
+$address = urldecode($_GET['address']);
+$phone = urldecode($_GET['phone']);
 $retainer_fee = '2,200';
 $agreement_date = date('jS \d\a\y \of F, Y');
-$signature = isset($_GET['signature']) ? sanitizeInput($_GET['signature']) : 'Signature';
-$signatureDate = isset($_GET['signatureDate']) ? sanitizeInput($_GET['signatureDate']) : date('Y-m-d');
+$signature = urldecode($_GET['signature']);
+$signatureDate = urldecode($_GET['signatureDate']);
+
 
 // Create the content
 $content = <<<EOD
