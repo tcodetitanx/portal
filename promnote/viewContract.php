@@ -1,11 +1,11 @@
 <?php
 $issuer_name = 'Axiom Corp';
 $issuer_address = '1510 N State Street STE 300, Lindon, UT 84042';
-$issuer_phone = '888 982 8947';
+$issuer_phone = '888 8';
 $name = isset($_GET['name']) ? urldecode($_GET['name']) : '';
 $address = isset($_GET['address']) ? urldecode($_GET['address']) : '';
 $phone = isset($_GET['phone']) ? urldecode($_GET['phone']) : '';
-$retainer_fee = '2,200';
+$retainer_fee = '2,499';
 $agreement_date = date('jS \d\a\y \of F, Y');
 ?>
 

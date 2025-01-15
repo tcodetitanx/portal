@@ -33,17 +33,21 @@ $pdf->AddPage();
 // Set font
 $pdf->SetFont('helvetica', '', 12);
 
-// Get data from GET parameters
+// Get and sanitize data from GET parameters
+function sanitizeInput($input) {
+    return htmlspecialchars(trim($input), ENT_QUOTES, 'UTF-8');
+}
+
 $issuer_name = 'Axiom Corp';
 $issuer_address = '1510 N State Street STE 300, Lindon, UT 84042';
 $issuer_phone = '888 982 8947';
-$name = $_GET['name'];
-$address = $_GET['address'];
-$phone = $_GET['phone'];
+$name = isset($_GET['name']) ? sanitizeInput($_GET['name']) : 'Client';
+$address = isset($_GET['address']) ? sanitizeInput($_GET['address']) : 'Address';
+$phone = isset($_GET['phone']) ? sanitizeInput($_GET['phone']) : 'Phone';
 $retainer_fee = '2,200';
 $agreement_date = date('jS \d\a\y \of F, Y');
-$signature = $_GET['signature'];
-$signatureDate = $_GET['signatureDate'];
+$signature = isset($_GET['signature']) ? sanitizeInput($_GET['signature']) : 'Signature';
+$signatureDate = isset($_GET['signatureDate']) ? sanitizeInput($_GET['signatureDate']) : date('Y-m-d');
 
 // Create the content
 $content = <<<EOD
@@ -117,8 +121,6 @@ $content = <<<EOD
 <p>IN WITNESS WHEREOF, the parties hereto have executed this Service Agreement as of the day and year first above written.</p>
 
 <p><strong>Axiom Corp</strong><br>
-
-
 <p><strong>Client</strong><br>
 By: <em>{$signature}</em><br>
 Name: {$name}<br>
