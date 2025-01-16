@@ -64,9 +64,9 @@ a. The Retainer Fee is due and payable upon the signing of this Agreement.
 b. The Retainer Fee will be applied toward the services outlined in Section 1.
 
 4. 90-Day Money-Back Guarantee
-a. If, within 90 days from the date of this Agreement, Service Provider has not successfully dissolved the Client's solar loan, and the Client is dissatisfied with the progress or results, the Client may request a refund of the Retainer Fee.
-b. To be eligible for the refund, Client must provide written notice of dissatisfaction no later than the 90th day following the execution of this Agreement.
-c. Upon receipt of such notice, Service Provider will issue a refund of the full $<?php echo $retainer_fee; ?> Retainer Fee within 30 days, provided no dissolution of the solar loan has occurred.
+a. If, within 90 days from the date of this Agreement, Service Provider has not secured a resolution which outweighs the fee the Client may request a refund of the Retainer Fee.
+b. To be eligible for the refund, Client must provide written request to execute this clause no later than the 90th day following the execution of this Agreement.
+c. Upon receipt of such notice, Service Provider will issue a refund of the full $<?php echo $retainer_fee; ?> Retainer Fee within 30 days, provided no acceptable resolution hs been reached.
 d. This clause cannot be executed if the case is currently in litigation or if the case is in docket.
 
 5. Client Responsibilities
