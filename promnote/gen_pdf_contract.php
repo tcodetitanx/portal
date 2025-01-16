@@ -107,7 +107,7 @@ $content = <<<EOD
 <h2>6. Termination of Agreement</h2>
 <p>This Agreement may be terminated by either party upon written notice:</p>
 <ol type="a">
-    <li>By the Client: If Client is not satisfied with the services or outcome within the 90-day period, as outlined in Section 4.</li>
+    <li>By the Client: If Client demonstrates that the services or outcomes are not consistent with the given plan within the 90-day period, as outlined in Section 4.</li>
     <li>By the Service Provider: If Client fails to provide necessary documentation or cooperate with the process.</li>
 </ol>
 

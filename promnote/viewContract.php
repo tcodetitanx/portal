@@ -76,7 +76,7 @@ b. Cooperate with Service Provider to facilitate the loan dissolution process.
 
 6. Termination of Agreement
 This Agreement may be terminated by either party upon written notice:
-a. By the Client: If Client is not satisfied with the services or outcome within the 90-day period, as outlined in Section 4.
+a. By the Client: If Client demonstrates that the services or outcomes are not consistent with the given plan within the 90-day period, as outlined in Section 4.
 b. By the Service Provider: If Client fails to provide necessary documentation or cooperate with the process.
 
 7. No Guarantee of Outcome
