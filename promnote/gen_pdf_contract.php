@@ -91,9 +91,9 @@ $content = <<<EOD
 
 <h2>4. 90-Day Money-Back Guarantee</h2>
 <ol type="a">
-    <li>If, within 90 days from the date of this Agreement, Service Provider has not successfully dissolved the Client's solar loan, and the Client is dissatisfied with the progress or results, the Client may request a refund of the Retainer Fee.</li>
-    <li>To be eligible for the refund, Client must provide written notice of dissatisfaction no later than the 90th day following the execution of this Agreement.</li>
-    <li>Upon receipt of such notice, Service Provider will issue a refund of the full \${$retainer_fee} Retainer Fee within 30 days, provided no dissolution of the solar loan has occurred.</li>
+    <li>If, within 90 days from the date of this Agreement, Service Provider has not secured a resolution which outweighs the fee the Client may request a refund of the Retainer Fee.</li>
+    <li>To be eligible for the refund, Client must provide written request to execute this clause no later than the 90th day following the execution of this Agreement.</li>
+    <li>Upon receipt of such notice, Service Provider will issue a refund of the full \${$retainer_fee} Retainer Fee within 30 days, provided no acceptable resolution hs been reached.</li>
     <li>This clause cannot be executed if the case is currently in litigation or if the case is in docket.</li>
 </ol>
 
