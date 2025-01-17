@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Direct Deposit Authorization Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+        }
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            background: #fff;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        label {
+            display: block;
+            margin-top: 15px;
+            font-weight: bold;
+            color: #555;
+        }
+        input, select, textarea {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        textarea {
+            resize: none;
+        }
+        button {
+            margin-top: 20px;
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            font-size: 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .check-image {
+            text-align: center;
+            margin: 20px 0;
+        }
+        .check-image img {
+            max-width: 100%;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Direct Deposit Authorization</h1>
+
+        <div class="check-image">
+            <img src="./check_blank.gif" alt="Sample Check">
+        </div>
+
+        <form id="depositForm">
+            <label for="name">Name</label>
+            <input type="text" id="name" name="name" required>
+
+            <label for="address">Address</label>
+            <input type="text" id="address" name="address" required>
+
+            <label for="city">City</label>
+            <input type="text" id="city" name="city" required>
+
+            <label for="state">State</label>
+            <input type="text" id="state" name="state" required>
+
+            <label for="zip">Zip Code</label>
+            <input type="text" id="zip" name="zip" required>
+
+            <label for="bank">Name of Bank</label>
+            <input type="text" id="bank" name="bank" required>
+
+            <label for="account">Account Number</label>
+            <input type="text" id="account" name="account" required>
+
+            <label for="routing">Routing Number</label>
+            <input type="text" id="routing" name="routing" required>
+
+            <label for="type">Type of Account</label>
+            <select id="type" name="type" required>
+                <option value="">Select</option>
+                <option value="checking">Checking</option>
+                <option value="savings">Savings</option>
+            </select>
+
+            <label for="signature">Signature</label>
+            <textarea id="signature" name="signature" rows="3" required></textarea>
+
+            <button type="button" onclick="exportToPDF()">Export to PDF</button>
+        </form>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+    <script>
+        async function exportToPDF() {
+            const { jsPDF } = window.jspdf;
+            const form = document.getElementById('depositForm');
+
+            if (!form.reportValidity()) {
+                alert('Please fill out all required fields.');
+                return;
+            }
+
+            const pdf = new jsPDF();
+            let yPosition = 10;
+
+            pdf.setFontSize(14);
+            pdf.text('Direct Deposit Authorization Form', 10, yPosition);
+            yPosition += 10;
+
+            const fields = ['name', 'address', 'city', 'state', 'zip', 'bank', 'account', 'routing', 'type', 'signature'];
+            fields.forEach((field) => {
+                const label = form.querySelector(`label[for=${field}]`).innerText;
+                const value = form[field].value;
+                pdf.text(`${label}: ${value}`, 10, yPosition);
+                yPosition += 10;
+            });
+
+            pdf.save('Direct_Deposit_Authorization.pdf');
+        }
+    </script>
+</body>
+</html>
