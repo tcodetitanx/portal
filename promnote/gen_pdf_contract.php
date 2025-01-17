@@ -124,9 +124,9 @@ $content = <<<EOD
 
 <p><strong>Axiom Corp</strong><br>
 <p><strong>Client</strong><br>
-By: <em>{$signature}</em><br>
+By: 
 Name: {$name}<br>
-Date: <em>{$signatureDate}</em></p>
+Date: 
 EOD;
 
 // Write the content
