@@ -128,6 +128,10 @@ $content = <<<EOD
 Name: {$name}<br>
 Signature:<br>
 Date:<br> 
+
+Name: Axiom Corp<br>
+Signature:<br>
+Date:<br> 
 EOD;
 
 // Write the content
