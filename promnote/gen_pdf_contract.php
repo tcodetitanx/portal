@@ -52,6 +52,10 @@ $monthly_payment = sanitizeInput($_GET['monthly_payment']);
 $months = sanitizeInput($_GET['months']);
 $agreement_date = date('jS \d\a\y \of F, Y');
 
+// Sanitize the new variables passed for payments
+$total_payments = sanitizeInput($_GET['total_payments']);
+$first_payment = sanitizeInput($_GET['first_payment']);
+$payment_day = sanitizeInput($_GET['payment_day']);
 
 // Create the dynamic content
 $content = <<<EOD

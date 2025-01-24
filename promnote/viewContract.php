@@ -135,11 +135,15 @@ Date: <input type="date" id="signatureDate" class="signature-input">
         signatureDateInput.addEventListener('input', checkFields);
 
         function generatePDF() {
-            const signature = encodeURIComponent(signatureInput.value);
-            const signatureDate = encodeURIComponent(signatureDateInput.value);
-            const url = `gen_pdf_contract.php?<?php echo $_SERVER['QUERY_STRING']; ?>&signature=${signature}&signatureDate=${signatureDate}`;
-            window.open(url, '_blank');
-        }
+    const signature = encodeURIComponent(signatureInput.value);
+    const signatureDate = encodeURIComponent(signatureDateInput.value);
+
+    // Include the new calculated variables in the query string
+    const url = "gen_pdf_contract.php?" + window.location.search.substr(1) + "&signature=" + signature + "&signatureDate=" + signatureDate + "&total_payments=" + <?php echo $total_payments; ?> + "&monthly_payment=" + <?php echo $monthly_payment; ?> + "&first_payment=" + <?php echo $first_payment; ?> + "&payment_day=" + <?php echo $payment_day; ?>;
+    window.open(url, '_blank');
+}
+
+
     </script>
 </body>
 </html>
