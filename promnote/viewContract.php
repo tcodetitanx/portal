@@ -140,13 +140,15 @@ Date: <input type="date" id="signatureDate" class="signature-input">
 
         
         const url = "gen_pdf_contract.php?" + window.location.search.substr(1) + 
-                    "&signature=" + signature + 
-                    "&signatureDate=" + signatureDate + 
-                    "&total_payments=" + <?php echo json_encode($total_payments); ?> + 
-                    "&monthly_payment=" + <?php echo json_encode($monthly_payment); ?> + 
-                    "&first_payment=" + <?php echo json_encode($first_payment); ?> + 
-                    "&payment_day=" + <?php echo json_encode($payment_day); ?>;
-        window.open(url, '_blank');
+            "&signature=" + signature + 
+            "&signatureDate=" + signatureDate + 
+            "&total_payments=" + <?php echo json_encode($total_payments); ?> + 
+            "&monthly_payment=" + <?php echo json_encode($monthly_payment); ?> + 
+            "&first_payment=" + <?php echo json_encode($first_payment); ?> + 
+            "&payment_day=" + <?php echo json_encode($payment_day); ?> + 
+            "&amount=" + <?php echo json_encode($amount); ?>;  // Include the amount
+window.open(url, '_blank');
+
     }
 </script>
 
