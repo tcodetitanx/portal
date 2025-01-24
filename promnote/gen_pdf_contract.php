@@ -33,9 +33,9 @@ $pdf->AddPage();
 // Set font
 $pdf->SetFont('helvetica', '', 12);
 
-// Function to sanitize input
+// Function to sanitize input and decode URL encoding
 function sanitizeInput($input) {
-    return htmlspecialchars(trim($input), ENT_QUOTES, 'UTF-8');
+    return htmlspecialchars(trim(urldecode($input)), ENT_QUOTES, 'UTF-8');
 }
 
 // Get and sanitize data from GET parameters
@@ -51,6 +51,7 @@ $remaining_balance = sanitizeInput($_GET['remaining_balance']);
 $monthly_payment = sanitizeInput($_GET['monthly_payment']);
 $months = sanitizeInput($_GET['months']);
 $agreement_date = date('jS \d\a\y \of F, Y');
+
 
 // Create the dynamic content
 $content = <<<EOD
