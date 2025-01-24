@@ -46,19 +46,29 @@ $creation_date = isset($_POST['creation_date']) ? sanitizeInput($_POST['creation
 $amount = isset($_POST['amount']) && is_numeric($_POST['amount']) ? sanitizeInput($_POST['amount']) : 0;
 $months = isset($_POST['months']) && is_numeric($_POST['months']) ? (int)sanitizeInput($_POST['months']) : 0;
 
-// Calculate number of payments and installment amount
+// Format the creation date
+$agreement_date = date('jS \d\a\y \of F, Y', strtotime($creation_date));
+
+// Logic for calculating payments and installment amounts
 if ($amount > 0 && $months > 0) {
-    $num_of_payments = $months + 1; // Including first payment and installments
-    $installment_amount = $amount / $num_of_payments;
-    $first_payment = number_format($installment_amount, 2);  // Format to two decimal places
-    $remaining_balance = $amount - $installment_amount; // Balance after first payment
+    if ($months == 1) {
+        // If months is 1, all money is paid upfront, no remaining balance
+        $payment_description = "The full amount of \${$amount} is due upon execution of this Agreement.";
+        $remaining_balance = 0;  // No remaining balance
+        $first_payment = number_format($amount, 2);  // Full amount as first payment
+    } else {
+        // Multiple months payment plan
+        $num_of_payments = $months + 1; // Including first payment and installments
+        $installment_amount = $amount / $num_of_payments;
+        $first_payment = number_format($installment_amount, 2);  // Format to two decimal places
+        $remaining_balance = $amount - $installment_amount; // Balance after first payment
+        $payment_description = "The first payment of \${$first_payment} is due on the date of execution of this agreement. The remaining balance of \${$remaining_balance} will be divided into {$months} equal monthly payments of \${$first_payment} each.";
+    }
 } else {
     $first_payment = 0;
     $remaining_balance = 0;
+    $payment_description = "Payment terms are not defined.";
 }
-
-// Format the creation date
-$agreement_date = date('jS \d\a\y \of F, Y', strtotime($creation_date));
 
 // Create the content with dynamic data
 $content = <<<EOD
@@ -94,9 +104,7 @@ Phone: {$phone}<br>
 <p>Client agrees to pay Service Provider a non-refundable retainer fee of \${$amount} ("Retainer Fee"). This fee covers the cost of the services specified in Section 1.</p>
 
 <h2>3. Payment Terms</h2>
-<p>If the Client has agreed to a payment plan, the first payment of \${$first_payment} is due on the date of execution of this agreement.</p>
-<p>The remaining balance of \${$remaining_balance} will be divided into {$months} equal monthly payments of \${$first_payment} each. These payments will be automatically processed monthly using the checking account and routing number provided by the Client.</p>
-<p>Payments will be due on the same day of each subsequent month, and all payments are non-refundable, except as outlined in Section 4.</p>
+<p>{$payment_description}</p>
 
 <h2>4. 90-Day Money-Back Guarantee</h2>
 <ol type="a">
