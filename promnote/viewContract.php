@@ -11,10 +11,17 @@ $retainer_fee = $amount;
 $agreement_date = date('jS \d\a\y \of F, Y');
 
 // Payment calculations
-$total_payments = $months + 1; // Includes initial payment
-$monthly_payment = $months > 1 ? number_format($amount / $total_payments, 2) : number_format($amount, 2);
-$first_payment = number_format($amount / $total_payments, 2);
-$payment_day = date('jS', strtotime("+1 month")); // Next month's day of the month
+if ($months == 1) {
+    $total_payments = 1;  // Only 1 payment
+    $monthly_payment = number_format($amount, 2);  // Full amount as monthly payment
+    $first_payment = number_format($amount, 2);  // Full amount as first payment
+    $payment_day = date('jS \o\f F, Y');  // Payment due today
+} else {
+    $total_payments = $months + 1; // Includes initial payment
+    $monthly_payment = number_format($amount / $total_payments, 2);
+    $first_payment = number_format($amount / $total_payments, 2);
+    $payment_day = date('jS', strtotime("+1 month")); // Next month's day of the month
+}
 ?>
 
 <!DOCTYPE html>
