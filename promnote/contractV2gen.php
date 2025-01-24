@@ -1,5 +1,5 @@
 <?php
-require_once('tcpdf_include.php');  // Include the TCPDF library
+require_once('../vendor/tecnickcom/tcpdf/tcpdf.php');
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Receive the POST data from the first page
