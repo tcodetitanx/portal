@@ -5,6 +5,18 @@ if (!isset($_SESSION["authenticated"]) || $_SESSION["authenticated"] !== true) {
     header("Location: ../login.php");
     exit();
 }
+
+if (!empty($_GET['months'])) {
+    $months = $_GET['months'];
+} else {
+    $months = "1";
+}
+
+if (!empty($_GET['amount'])) {
+    $amount = $_GET['amount'];
+} else {
+    $amount = "2499";
+}
 ?>
 
 <!DOCTYPE html>
@@ -30,6 +42,11 @@ if (!isset($_SESSION["authenticated"]) || $_SESSION["authenticated"] !== true) {
 
             <label for="creation_date">Date of contract creation:</label>
             <input type="date" id="creation_date" name="creation_date" required>
+
+            <!-- Hidden inputs to include 'amount' and 'months' -->
+            <input type="hidden" id="months" name="months" value="<?php echo htmlspecialchars($months, ENT_QUOTES, 'UTF-8'); ?>">
+            <input type="hidden" id="amount" name="amount" value="<?php echo htmlspecialchars($amount, ENT_QUOTES, 'UTF-8'); ?>">
+
             <button type="button" onclick="generateUrl()">Generate URL</button>
         </form>
 

@@ -33,31 +33,32 @@ $pdf->AddPage();
 // Set font
 $pdf->SetFont('helvetica', '', 12);
 
-// Get and sanitize data from GET parameters
+// Function to sanitize input
 function sanitizeInput($input) {
     return htmlspecialchars(trim($input), ENT_QUOTES, 'UTF-8');
 }
 
-// Get data from GET parameters
+// Get and sanitize data from GET parameters
 $issuer_name = 'Axiom Corp';
 $issuer_address = '1510 N State Street STE 300, Lindon, UT 84042';
 $issuer_phone = '888 982 8947';
-$name = urldecode($_GET['name']);
-$address = urldecode($_GET['address']);
-$phone = urldecode($_GET['phone']);
-$retainer_fee = '2,499.00';
+$name = sanitizeInput($_GET['name']);
+$address = sanitizeInput($_GET['address']);
+$phone = sanitizeInput($_GET['phone']);
+$retainer_fee = sanitizeInput($_GET['retainer_fee']);
+$initial_payment = sanitizeInput($_GET['initial_payment']);
+$remaining_balance = sanitizeInput($_GET['remaining_balance']);
+$monthly_payment = sanitizeInput($_GET['monthly_payment']);
+$months = sanitizeInput($_GET['months']);
 $agreement_date = date('jS \d\a\y \of F, Y');
-$signature = urldecode($_GET['signature']);
-$signatureDate = urldecode($_GET['signatureDate']);
 
-
-// Create the content
+// Create the dynamic content
 $content = <<<EOD
 <h1>Service Agreement</h1>
 
 <p>This Service Agreement ("Agreement") is made and entered into on this {$agreement_date}, by and between:</p>
 
-<p><strong>Axiom Corp</strong><br>
+<p><strong>{$issuer_name}</strong><br>
 {$issuer_address}<br>
 ("Service Provider")</p>
 
@@ -69,8 +70,6 @@ $content = <<<EOD
 
 <p>WHEREAS, Client has a solar loan that they wish to dissolve, and Service Provider has the expertise and ability to assist in this matter;</p>
 
-<p>WHEREAS, Client agrees to retain Service Provider for the purpose of contract validity review and credit repair related to the dissolution of the solar loan;</p>
-
 <p>NOW, THEREFORE, the parties agree as follows:</p>
 
 <h2>1. Scope of Services</h2>
@@ -81,21 +80,21 @@ $content = <<<EOD
 </ol>
 
 <h2>2. Retainer Fee</h2>
-<p>Client agrees to pay Service Provider a non-refundable retainer fee of $2,999.00("Retainer Fee"). This fee covers the cost of the services specified in Section 1.</p>
+<p>Client agrees to pay Service Provider a non-refundable retainer fee of \${$retainer_fee}. This fee covers the cost of the services specified in Section 1.</p>
 
 <h2>3. Payment Terms</h2>
 <ol type="a">
-    <li>An initial payment of $428.42 shall be made on the date of the execution of this agreement.</li>
-    <li>The remaining balance of $2,570.58 will be divided into six (6) equal monthly payments of $428.29 each. These payments will be automatically processed monthly using the checking account and routing number provided by the Client.</li>
+    <li>An initial payment of \${$initial_payment} shall be made on the date of the execution of this agreement.</li>
+    <li>The remaining balance of \${$remaining_balance} will be divided into {$months} equal monthly payments of \${$monthly_payment} each. These payments will be automatically processed monthly using the checking account and routing number provided by the Client.</li>
     <li>Payments may take 2–3 business days to reflect, depending on the financial institution.</li>
     <li>All payments are non-refundable, except as outlined in Section 4.</li>
 </ol>
 
 <h2>4. 90-Day Money-Back Guarantee</h2>
 <ol type="a">
-    <li>If, within 90 days from the date of this Agreement, Service Provider has not secured a resolution which outweighs the fee the Client may request a refund of the Retainer Fee.</li>
+    <li>If, within 90 days from the date of this Agreement, Service Provider has not secured a resolution which outweighs the fee, the Client may request a refund of the Retainer Fee.</li>
     <li>To be eligible for the refund, Client must provide written request to execute this clause no later than the 90th day following the execution of this Agreement.</li>
-    <li>Upon receipt of such notice, Service Provider will issue a refund of the full $2,999.00 Retainer Fee within 30 days, provided no acceptable resolution hs been reached.</li>
+    <li>Upon receipt of such notice, Service Provider will issue a refund of the full \${$retainer_fee} Retainer Fee within 30 days, provided no acceptable resolution has been reached.</li>
     <li>This clause cannot be executed if the case is currently in litigation or if the case is in docket.</li>
 </ol>
 
@@ -123,20 +122,9 @@ $content = <<<EOD
 <p>This Agreement constitutes the entire understanding between the parties and supersedes all prior discussions, agreements, or understandings of any kind. Any modifications to this Agreement must be made in writing and signed by both parties.</p>
 
 <p>IN WITNESS WHEREOF, the parties hereto have executed this Service Agreement as of the day and year first above written.</p>
-
-<p><strong>Axiom Corp</strong><br>
-<p><strong>Client</strong><br>
-
-Name: {$name}<br>
-Signature:<br>
-Date:<br> 
-
-Name: Axiom Corp<br>
-Signature:<br>
-Date:<br> 
 EOD;
 
-// Write the content
+// Write the content to the PDF
 $pdf->writeHTML($content, true, false, true, false, '');
 
 // Output the PDF

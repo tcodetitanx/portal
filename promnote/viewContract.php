@@ -5,8 +5,16 @@ $issuer_phone = '888 8';
 $name = isset($_GET['name']) ? urldecode($_GET['name']) : '';
 $address = isset($_GET['address']) ? urldecode($_GET['address']) : '';
 $phone = isset($_GET['phone']) ? urldecode($_GET['phone']) : '';
-$retainer_fee = '2,499';
+$months = isset($_GET['months']) ? intval($_GET['months']) : 1; // Ensure months is an integer
+$amount = isset($_GET['amount']) ? floatval($_GET['amount']) : 0; // Ensure amount is a float
+$retainer_fee = $amount;
 $agreement_date = date('jS \d\a\y \of F, Y');
+
+// Payment calculations
+$total_payments = $months + 1; // Includes initial payment
+$monthly_payment = $months > 1 ? number_format($amount / $total_payments, 2) : number_format($amount, 2);
+$first_payment = number_format($amount / $total_payments, 2);
+$payment_day = date('jS', strtotime("+1 month")); // Next month's day of the month
 ?>
 
 <!DOCTYPE html>
@@ -60,13 +68,20 @@ b. Assist Client in credit repair procedures, as needed, to facilitate loan diss
 Client agrees to pay Service Provider a non-refundable retainer fee of $<?php echo $retainer_fee; ?> ("Retainer Fee"). This fee covers the cost of the services specified in Section 1.
 
 3. Payment Terms
-a. The Retainer Fee is due and payable upon the signing of this Agreement.
+<?php if ($months == 1): ?>
+    Client agrees to pay the Retainer Fee in full upon signing this Agreement.
+<?php else: ?>
+    Client agrees to pay the Retainer Fee in <?php echo $total_payments; ?> payments:
+    - The first payment of $<?php echo $first_payment; ?> is due upon signing this Agreement.
+    - <?php echo $months; ?> subsequent payments of $<?php echo $monthly_payment; ?> each, due on the <?php echo $payment_day; ?> of each month.
+<?php endif; ?>
+
 b. The Retainer Fee will be applied toward the services outlined in Section 1.
 
 4. 90-Day Money-Back Guarantee
-a. If, within 90 days from the date of this Agreement, Service Provider has not secured a resolution which outweighs the fee the Client may request a refund of the Retainer Fee.
-b. To be eligible for the refund, Client must provide written request to execute this clause no later than the 90th day following the execution of this Agreement.
-c. Upon receipt of such notice, Service Provider will issue a refund of the full $<?php echo $retainer_fee; ?> Retainer Fee within 30 days, provided no acceptable resolution hs been reached.
+a. If, within 90 days from the date of this Agreement, Service Provider has not secured a resolution which outweighs the fee, the Client may request a refund of the Retainer Fee.
+b. To be eligible for the refund, Client must provide a written request to execute this clause no later than the 90th day following the execution of this Agreement.
+c. Upon receipt of such notice, Service Provider will issue a refund of the full $<?php echo $retainer_fee; ?> Retainer Fee within 30 days, provided no acceptable resolution has been reached.
 d. This clause cannot be executed if the case is currently in litigation or if the case is in docket.
 
 5. Client Responsibilities
