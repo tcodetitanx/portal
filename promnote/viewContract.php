@@ -119,31 +119,36 @@ Date: <input type="date" id="signatureDate" class="signature-input">
     </div>
 
     <script>
-        const signatureInput = document.getElementById('signature');
-        const signatureDateInput = document.getElementById('signatureDate');
-        const generatePdfBtn = document.getElementById('generatePdfBtn');
+    const signatureInput = document.getElementById('signature');
+    const signatureDateInput = document.getElementById('signatureDate');
+    const generatePdfBtn = document.getElementById('generatePdfBtn');
 
-        function checkFields() {
-            if (signatureInput.value.trim() !== '' && signatureDateInput.value !== '') {
-                generatePdfBtn.disabled = false;
-            } else {
-                generatePdfBtn.disabled = true;
-            }
+    function checkFields() {
+        if (signatureInput.value.trim() !== '' && signatureDateInput.value !== '') {
+            generatePdfBtn.disabled = false;
+        } else {
+            generatePdfBtn.disabled = true;
         }
+    }
 
-        signatureInput.addEventListener('input', checkFields);
-        signatureDateInput.addEventListener('input', checkFields);
+    signatureInput.addEventListener('input', checkFields);
+    signatureDateInput.addEventListener('input', checkFields);
 
-        function generatePDF() {
-    const signature = encodeURIComponent(signatureInput.value);
-    const signatureDate = encodeURIComponent(signatureDateInput.value);
+    function generatePDF() {
+        const signature = encodeURIComponent(signatureInput.value);
+        const signatureDate = encodeURIComponent(signatureDateInput.value);
 
-    // Include the new calculated variables in the query string
-    const url = "gen_pdf_contract.php?" + window.location.search.substr(1) + "&signature=" + signature + "&signatureDate=" + signatureDate + "&total_payments=" + <?php echo $total_payments; ?> + "&monthly_payment=" + <?php echo $monthly_payment; ?> + "&first_payment=" + <?php echo $first_payment; ?> + "&payment_day=" + <?php echo $payment_day; ?>;
-    window.open(url, '_blank');
-}
+        
+        const url = "gen_pdf_contract.php?" + window.location.search.substr(1) + 
+                    "&signature=" + signature + 
+                    "&signatureDate=" + signatureDate + 
+                    "&total_payments=" + <?php echo json_encode($total_payments); ?> + 
+                    "&monthly_payment=" + <?php echo json_encode($monthly_payment); ?> + 
+                    "&first_payment=" + <?php echo json_encode($first_payment); ?> + 
+                    "&payment_day=" + <?php echo json_encode($payment_day); ?>;
+        window.open(url, '_blank');
+    }
+</script>
 
-
-    </script>
 </body>
 </html>
