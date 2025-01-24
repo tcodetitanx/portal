@@ -63,6 +63,10 @@ if ($months > 1) {
     $payment_terms = "<li>The remaining balance of \${$remaining_balance} will be divided into {$months} equal monthly payments of \${$monthly_payment} each. These payments will be automatically processed monthly using the checking account and routing number provided by the Client.</li>";
 }
 
+// Calculate total payments over the course of the agreement
+$total_amount_due = $remaining_balance + $first_payment;
+$total_amount_due_text = number_format($total_amount_due, 2);
+
 // Create the dynamic content
 $content = <<<EOD
 <h1>Service Agreement</h1>
@@ -131,6 +135,9 @@ $content = <<<EOD
 
 <h2>9. Entire Agreement</h2>
 <p>This Agreement constitutes the entire understanding between the parties and supersedes all prior discussions, agreements, or understandings of any kind. Any modifications to this Agreement must be made in writing and signed by both parties.</p>
+
+<h2>10. Payment Breakdown</h2>
+<p>The total amount due for services provided is \${$total_amount_due_text}, which includes the initial payment and the remaining balance. The Client agrees to adhere to the payment terms as outlined in this agreement.</p>
 
 <p>IN WITNESS WHEREOF, the parties hereto have executed this Service Agreement as of the day and year first above written.</p>
 EOD;

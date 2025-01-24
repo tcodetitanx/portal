@@ -28,7 +28,7 @@ if (!isset($_SESSION["authenticated"]) || $_SESSION["authenticated"] !== true) {
         <button class="tool-button">Eviction Notice</button>
     </a><br><br>
 
-    <a href="./promnote/choicePage.php" style="text-decoration:none;">
+    <a href="./promnote/contractv2.php" style="text-decoration:none;">
         <button class="tool-button">Loan Dissolution Contract</button>
     </a><br><br>
 
