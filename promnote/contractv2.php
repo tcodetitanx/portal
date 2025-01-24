@@ -13,13 +13,13 @@ if (!isset($_SESSION["authenticated"]) || $_SESSION["authenticated"] !== true) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Generate Contract PDF</title>
+    <title>Generate Contract</title>
     <link rel="stylesheet" href="../assets/stylesLight.css">
 </head>
 <body>
     <div class="container">
-        <h1>Generate Contract PDF</h1>
-        <form id="form">
+        <h1>Generate Contract</h1>
+        <form id="form" action="contractV2gen.php" method="POST">
             <label for="name">Recipient Name:</label>
             <input type="text" id="name" name="name" required>
 
@@ -38,22 +38,8 @@ if (!isset($_SESSION["authenticated"]) || $_SESSION["authenticated"] !== true) {
             <label for="months">Months:</label>
             <input type="number" id="months" name="months" value="1" required>
 
-            <button type="button" onclick="generatePdf()">Generate PDF</button>
+            <button type="submit">Generate PDF</button>
         </form>
     </div>
-
-    <script>
-        function generatePdf() {
-            const form = document.getElementById('form');
-            const formData = new FormData(form);
-
-            let params = new URLSearchParams();
-            formData.forEach((value, key) => {
-                params.append(key, encodeURIComponent(value)); // Only encode values, not keys
-            });
-            const url = `contractV2gen.php?${params.toString()}`;
-            window.location.href = url; // Redirect the user to the new contract PDF generation page
-        }
-    </script>
 </body>
 </html>
