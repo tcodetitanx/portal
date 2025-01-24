@@ -13,12 +13,12 @@ if (!isset($_SESSION["authenticated"]) || $_SESSION["authenticated"] !== true) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Generate Contract URL</title>
+    <title>Generate Contract PDF</title>
     <link rel="stylesheet" href="../assets/stylesLight.css">
 </head>
 <body>
     <div class="container">
-        <h1>Generate Contract URL</h1>
+        <h1>Generate Contract PDF</h1>
         <form id="form">
             <label for="name">Recipient Name:</label>
             <input type="text" id="name" name="name" required>
@@ -38,14 +38,12 @@ if (!isset($_SESSION["authenticated"]) || $_SESSION["authenticated"] !== true) {
             <label for="months">Months:</label>
             <input type="number" id="months" name="months" value="1" required>
 
-            <button type="button" onclick="generateUrl()">Generate URL</button>
+            <button type="button" onclick="generatePdf()">Generate PDF</button>
         </form>
-
-        <div id="generatedUrl"></div>
     </div>
 
     <script>
-        function generateUrl() {
+        function generatePdf() {
             const form = document.getElementById('form');
             const formData = new FormData(form);
 
@@ -53,9 +51,8 @@ if (!isset($_SESSION["authenticated"]) || $_SESSION["authenticated"] !== true) {
             formData.forEach((value, key) => {
                 params.append(key, encodeURIComponent(value)); // Only encode values, not keys
             });
-            const url = `viewContract.php?${params.toString()}`;
-            
-            document.getElementById('generatedUrl').innerHTML = `<p>Generated URL: <a href="${url}" target="_blank">${url}</a></p>`;
+            const url = `contractV2gen.php?${params.toString()}`;
+            window.location.href = url; // Redirect the user to the new contract PDF generation page
         }
     </script>
 </body>
