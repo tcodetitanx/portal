@@ -21,15 +21,15 @@ if (!isset($_SESSION["authenticated"]) || $_SESSION["authenticated"] !== true) {
     <h3>Choose an option:</h3>
     <div class="buttons" style="text-align:left;">
 
-    <a href="./promnote/contract.php?amount=2499&months=1" style="text-decoration:none;">
+    <a href="./contract.php?amount=2499&months=1" style="text-decoration:none;">
         <button class="tool-button">One Time Payment</button>
     </a><br><br>
 
-    <a href="./promnote/contract.php?amount=2699&months=3" style="text-decoration:none;">
+    <a href="./contract.php?amount=2699&months=3" style="text-decoration:none;">
         <button class="tool-button">3 Month Plan</button>
     </a><br><br>
 
-    <a href="./promnote/contract.php?amount=2999&months=6" style="text-decoration:none;">
+    <a href="./contract.php?amount=2999&months=6" style="text-decoration:none;">
         <button class="tool-button">6 Month Plan</button>
     </a><br><br>
 </div>
