@@ -144,7 +144,7 @@ Date: <input type="date" id="signatureDate" class="signature-input">
             "&signatureDate=" + signatureDate + 
             "&total_payments=" + <?php echo json_encode($total_payments); ?> + 
             "&monthly_payment=" + <?php echo json_encode($monthly_payment); ?> + 
-            "&first_payment=" + <?php echo json_encode($first_payment); ?> + 
+            "&initial_payment=" + <?php echo json_encode($first_payment); ?> + 
             "&payment_day=" + <?php echo json_encode($payment_day); ?> + 
             "&retainer_fee=" + <?php echo json_encode($retainer_fee); ?> 
 window.open(url, '_blank');
