@@ -55,13 +55,13 @@ if ($amount > 0 && $months > 0) {
         // If months is 1, all money is paid upfront, no remaining balance
         $payment_description = "The full amount of \${$amount} is due upon execution of this Agreement.";
         $remaining_balance = 0;  // No remaining balance
-        $first_payment = number_format($amount, 2);  // Full amount as first payment
+        $first_payment = number_format(round($amount, 2), 2);  // Round and format to two decimal places
     } else {
         // Multiple months payment plan
         $num_of_payments = $months + 1; // Including first payment and installments
         $installment_amount = $amount / $num_of_payments;
-        $first_payment = number_format($installment_amount, 2);  // Format to two decimal places
-        $remaining_balance = $amount - $installment_amount; // Balance after first payment
+        $first_payment = number_format(round($installment_amount, 2), 2);  // Round and format to two decimal places
+        $remaining_balance = round($amount - $installment_amount, 2); // Round remaining balance
         $payment_description = "The first payment of \${$first_payment} is due on the date of execution of this agreement. The remaining balance of \${$remaining_balance} will be divided into {$months} equal monthly payments of \${$first_payment} each.";
     }
 } else {
@@ -69,6 +69,7 @@ if ($amount > 0 && $months > 0) {
     $remaining_balance = 0;
     $payment_description = "Payment terms are not defined.";
 }
+
 
 // Create the content with dynamic data
 $content = <<<EOD
@@ -108,14 +109,46 @@ Phone: {$phone}<br>
 
 <h2>4. 90-Day Money-Back Guarantee</h2>
 <ol type="a">
-    <li>If, within 90 days from the date of this Agreement, Service Provider has not secured a resolution which outweighs the fees paid, the Client may be entitled to a refund as outlined in the refund policy.</li>
+    <li>If, within 90 days from the date of this Agreement, Service Provider has not secured a resolution which outweighs the fee, the Client may request a refund of the Retainer Fee.</li>
+    <li>To be eligible for the refund, Client must provide a written request to execute this clause no later than the 90th day following the execution of this Agreement.</li>
+    <li>Upon receipt of such notice, Service Provider will issue a refund of the full \${$amount} Retainer Fee within 30 days, provided no acceptable resolution has been reached.</li>
+    <li>This clause cannot be executed if the case is currently in litigation or if the case is on docket.</li>
 </ol>
 
-<h2>5. Signature</h2>
-<p>By signing this Agreement, Client acknowledges understanding of and agreement to the terms and conditions outlined above.</p>
+<h2>5. Client Responsibilities</h2>
+<p>Client agrees to:</p>
+<ol type="a">
+    <li>Provide all necessary documentation regarding their solar loan and credit history.</li>
+    <li>Cooperate with Service Provider to facilitate the loan dissolution process.</li>
+</ol>
 
-<p>Client's Signature: ____________________________</p>
-<p>Date: ____________________________</p>
+<h2>6. Termination of Agreement</h2>
+<p>This Agreement may be terminated by either party upon written notice:</p>
+<ol type="a">
+    <li>By the Client: If Client demonstrates that the services or outcomes are not consistent with the given plan within the 90-day period, as outlined in Section 4.</li>
+    <li>By the Service Provider: If Client fails to provide necessary documentation or cooperate with the process.</li>
+</ol>
+
+<h2>7. No Guarantee of Outcome</h2>
+<p>While Service Provider will use its expertise to assist in dissolving the Client's solar loan, no specific outcome is guaranteed except for the return of the Retainer Fee if conditions outlined in Section 4 are met.</p>
+
+<h2>8. Governing Law</h2>
+<p>This Agreement shall be governed by and construed in accordance with the laws of the State of Utah.</p>
+
+<h2>9. Entire Agreement</h2>
+<p>This Agreement constitutes the entire understanding between the parties and supersedes all prior discussions, agreements, or understandings of any kind. Any modifications to this Agreement must be made in writing and signed by both parties.</p>
+
+<p>IN WITNESS WHEREOF, the parties hereto have executed this Service Agreement as of the day and year first above written.</p>
+
+<p><strong>Axiom Corp</strong><br>
+Name: Axiom Corp<br>
+Signature:<br>
+Date:</p>
+
+<p><strong>Client</strong><br>
+Name: {$name}<br>
+Signature:<br>
+Date:</p>
 
 EOD;
 
