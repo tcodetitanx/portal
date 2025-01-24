@@ -79,6 +79,7 @@ $content = <<<EOD
 
 <p><strong>Axiom Corp</strong><br>
 1510 N State Street STE 300, Lindon, UT 84042<br>
+Phone: 844-402-9466<br>
 ("Service Provider")</p>
 
 <p>and</p>
