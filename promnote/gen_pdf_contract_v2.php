@@ -33,23 +33,29 @@ $pdf->AddPage();
 // Set font
 $pdf->SetFont('helvetica', '', 12);
 
-// Get and sanitize data from GET parameters
+// Get and sanitize data from POST parameters
 function sanitizeInput($input) {
     return htmlspecialchars(trim($input), ENT_QUOTES, 'UTF-8');
 }
 
-// Get data from GET parameters
+// Get data from POST parameters
 $issuer_name = 'Axiom Corp';
 $issuer_address = '1510 N State Street STE 300, Lindon, UT 84042';
 $issuer_phone = '888 982 8947';
-$name = urldecode($_GET['name']);
-$address = urldecode($_GET['address']);
-$phone = urldecode($_GET['phone']);
-$retainer_fee = '2,499.00';
+$name = urldecode($_POST['name']);
+$address = urldecode($_POST['address']);
+$phone = urldecode($_POST['phone']);
+$retainer_fee = sanitizeInput($_POST['retainer_fee']); // Total fee
+$months = (int)sanitizeInput($_POST['months']); // Number of months
 $agreement_date = date('jS \d\a\y \of F, Y');
-$signature = urldecode($_GET['signature']);
-$signatureDate = urldecode($_GET['signatureDate']);
+$signature = urldecode($_POST['signature']);
+$signatureDate = urldecode($_POST['signatureDate']);
 
+// Calculate number of payments and installment amount
+$num_of_payments = $months + 1; // Including first payment and installments
+$installment_amount = $retainer_fee / $num_of_payments;
+$first_payment = number_format($installment_amount, 2);  // Format to two decimal places
+$remaining_balance = $retainer_fee - $installment_amount; // Balance after first payment
 
 // Create the content
 $content = <<<EOD
@@ -81,22 +87,19 @@ $content = <<<EOD
 </ol>
 
 <h2>2. Retainer Fee</h2>
-<p>Client agrees to pay Service Provider a non-refundable retainer fee of $2,999.00("Retainer Fee"). This fee covers the cost of the services specified in Section 1.</p>
+<p>Client agrees to pay Service Provider a non-refundable retainer fee of \${$retainer_fee} ("Retainer Fee"). This fee covers the cost of the services specified in Section 1.</p>
 
 <h2>3. Payment Terms</h2>
-<ol type="a">
-    <li>An initial payment of $428.42 shall be made on the date of the execution of this agreement.</li>
-    <li>The remaining balance of $2,570.58 will be divided into six (6) equal monthly payments of $428.29 each. These payments will be automatically processed monthly using the checking account and routing number provided by the Client.</li>
-    <li>Payments may take 2–3 business days to reflect, depending on the financial institution.</li>
-    <li>All payments are non-refundable, except as outlined in Section 4.</li>
-</ol>
+<p>If the Client has agreed to a payment plan, the first payment of \${$first_payment} is due on the date of execution of this agreement.</p>
+<p>The remaining balance of \${$remaining_balance} will be divided into {$months} equal monthly payments of \${$first_payment} each. These payments will be automatically processed monthly using the checking account and routing number provided by the Client.</p>
+<p>Payments will be due on the same day of each subsequent month, and all payments are non-refundable, except as outlined in Section 4.</p>
 
 <h2>4. 90-Day Money-Back Guarantee</h2>
 <ol type="a">
-    <li>If, within 90 days from the date of this Agreement, Service Provider has not secured a resolution which outweighs the fee the Client may request a refund of the Retainer Fee.</li>
-    <li>To be eligible for the refund, Client must provide written request to execute this clause no later than the 90th day following the execution of this Agreement.</li>
-    <li>Upon receipt of such notice, Service Provider will issue a refund of the full $2,999.00 Retainer Fee within 30 days, provided no acceptable resolution hs been reached.</li>
-    <li>This clause cannot be executed if the case is currently in litigation or if the case is in docket.</li>
+    <li>If, within 90 days from the date of this Agreement, Service Provider has not secured a resolution which outweighs the fee, the Client may request a refund of the Retainer Fee.</li>
+    <li>To be eligible for the refund, Client must provide a written request to execute this clause no later than the 90th day following the execution of this Agreement.</li>
+    <li>Upon receipt of such notice, Service Provider will issue a refund of the full \${$retainer_fee} Retainer Fee within 30 days, provided no acceptable resolution has been reached.</li>
+    <li>This clause cannot be executed if the case is currently in litigation or if the case is on docket.</li>
 </ol>
 
 <h2>5. Client Responsibilities</h2>
@@ -141,3 +144,4 @@ $pdf->writeHTML($content, true, false, true, false, '');
 
 // Output the PDF
 $pdf->Output('service_agreement.pdf', 'I');
+?>
