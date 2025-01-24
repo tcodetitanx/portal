@@ -90,7 +90,9 @@ $content = <<<EOD
 <h2>3. Payment Terms</h2>
 <ol type="a">
     <li>An initial payment of \${$initial_payment} shall be made on the date of the execution of this agreement.</li>
-    <li>The remaining balance of \${$remaining_balance} will be divided into {$months} equal monthly payments of \${$monthly_payment} each. These payments will be automatically processed monthly using the checking account and routing number provided by the Client.</li>
+    <?php if ($months > 1): ?>
+        <li>The remaining balance of \${$remaining_balance} will be divided into {$months} equal monthly payments of \${$monthly_payment} each. These payments will be automatically processed monthly using the checking account and routing number provided by the Client.</li>
+    <?php endif; ?>
     <li>Payments may take 2–3 business days to reflect, depending on the financial institution.</li>
     <li>All payments are non-refundable, except as outlined in Section 4.</li>
 </ol>
