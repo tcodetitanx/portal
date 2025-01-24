@@ -57,6 +57,12 @@ $total_payments = sanitizeInput($_GET['total_payments']);
 $first_payment = sanitizeInput($_GET['first_payment']);
 $payment_day = sanitizeInput($_GET['payment_day']);
 
+// Define the payment terms based on months
+$payment_terms = '';
+if ($months > 1) {
+    $payment_terms = "<li>The remaining balance of \${$remaining_balance} will be divided into {$months} equal monthly payments of \${$monthly_payment} each. These payments will be automatically processed monthly using the checking account and routing number provided by the Client.</li>";
+}
+
 // Create the dynamic content
 $content = <<<EOD
 <h1>Service Agreement</h1>
@@ -90,9 +96,7 @@ $content = <<<EOD
 <h2>3. Payment Terms</h2>
 <ol type="a">
     <li>An initial payment of \${$initial_payment} shall be made on the date of the execution of this agreement.</li>
-    <?php if ($months > 1): ?>
-        <li>The remaining balance of \${$remaining_balance} will be divided into {$months} equal monthly payments of \${$monthly_payment} each. These payments will be automatically processed monthly using the checking account and routing number provided by the Client.</li>
-    <?php endif; ?>
+    {$payment_terms}
     <li>Payments may take 2–3 business days to reflect, depending on the financial institution.</li>
     <li>All payments are non-refundable, except as outlined in Section 4.</li>
 </ol>
@@ -136,3 +140,4 @@ $pdf->writeHTML($content, true, false, true, false, '');
 
 // Output the PDF
 $pdf->Output('service_agreement.pdf', 'I');
+?>
