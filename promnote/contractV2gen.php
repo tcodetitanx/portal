@@ -100,6 +100,8 @@ Phone: {$phone}<br>
 <ol type="a">
     <li>Review the solar loan contract for validity and potential for dissolution.</li>
     <li>Assist Client in credit repair procedures, as needed, to facilitate loan dissolution.</li>
+    <li>Aid in removing any liens associated with the loan/lease.</li>
+    <li>Negotiate suitable loan terms per clients directive.</li>
 </ol>
 
 <h2>2. Retainer Fee</h2>
