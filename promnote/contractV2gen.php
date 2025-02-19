@@ -48,7 +48,7 @@ $months = isset($_POST['months']) && is_numeric($_POST['months']) ? (int)sanitiz
 $clause_choice = isset($_POST['clause_choice']) ? sanitizeInput($_POST['clause_choice']) : 'default';
 
 if ($clause_choice === 'default' || $clause_choice === 'Payment Help') {
-    $clause_text = '4. Payment Coverage
+    $clause_text = '<h2>4. Payment Coverage<h2>
 "Service Provider" agrees to cover the client\'s loan payments up to a maximum cumulative amount of 1,500. Payment will be made directly to the "Client\'s" behalf. This coverage is provided to alleviate financial strain on the "Client" while "Service Provider works towards "Client\'s" targeted resolution.
 The "Service Provider\'s" obligation will cease once
 a: The date a resolution is reached or;
