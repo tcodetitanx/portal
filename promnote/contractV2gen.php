@@ -90,7 +90,7 @@ if ($amount > 0 && $months > 0) {
 }
 
 if ($clause_choice == 'Payment Help') {
-    $payment_description .= 'Additionally, The "Client" agrees to provide accurate and timely information regarding their loan payments, including payment amounts, due dates, and creditor contact information. The "Client" must notify the "Service Provider" immediately of any changes to their loan payment details. ';
+    $payment_description .= ' Additionally, The "Client" agrees to provide accurate and timely information regarding their loan payments, including payment amounts, due dates, and creditor contact information. The "Client" must notify the "Service Provider" immediately of any changes to their loan payment details. ';
 }
 
 
@@ -131,17 +131,11 @@ Phone: {$phone}<br>
 <p>Client agrees to pay Service Provider a retainer fee of \${$amount} ("Retainer Fee"). This fee covers the cost of the services specified in Section 1.</p>
 
 <h2>3. Payment Terms</h2>
-<p>{$payment_description}</p>
+<p>{$payment_description}</p><br>
 
-<h2>4. 90-Day Money-Back Guarantee</h2>
-<ol type="a">
-    <li>If, within 90 days from the date of this Agreement, Service Provider has not secured a resolution which outweighs the fee, the Client may request a refund of the Retainer Fee.</li>
-    <li>To be eligible for the refund, Client must provide a written request to execute this clause no later than the 90th day following the execution of this Agreement.</li>
-    <li>Upon receipt of such notice, Service Provider will issue a refund of the full \${$amount} Retainer Fee or any payments made up to that point, whatever amount is smaller. within 30 days, provided no acceptable resolution has been reached.</li>
-    <li>This clause cannot be executed if the case is currently in litigation or if the case is on docket.</li>
-</ol>
+$clause_text
 
-<h2>5. Client Responsibilities</h2>
+<br><h2>5. Client Responsibilities</h2>
 <p>Client agrees to:</p>
 <ol type="a">
     <li>Provide all necessary documentation regarding their solar loan and credit history.</li>
