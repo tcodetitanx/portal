@@ -32,6 +32,13 @@ if (!isset($_SESSION["authenticated"]) || $_SESSION["authenticated"] !== true) {
             <label for="creation_date">Date of contract creation:</label>
             <input type="date" id="creation_date" name="creation_date" required>
 
+            <label>Clause Choice:</label>
+            <input type="radio" id="guarantee" name="clause_choice" value="90-day Guarantee" required>
+            <label for="guarantee">90 - Day Guarantee</label>
+
+            <input type="radio" id="payment_help" name="clause_choice" value="Payment Help" required>
+            <label for="payment_help">Payment Help</label>
+
             <label for="amount">Amount:</label>
             <input type="number" id="amount" name="amount" value="2499" required>
 

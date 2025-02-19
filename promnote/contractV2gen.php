@@ -45,6 +45,25 @@ $phone = isset($_POST['phone']) ? sanitizeInput($_POST['phone']) : 'Client Phone
 $creation_date = isset($_POST['creation_date']) ? sanitizeInput($_POST['creation_date']) : date('Y-m-d');
 $amount = isset($_POST['amount']) && is_numeric($_POST['amount']) ? sanitizeInput($_POST['amount']) : 0;
 $months = isset($_POST['months']) && is_numeric($_POST['months']) ? (int)sanitizeInput($_POST['months']) : 0;
+$clause_choice = isset($_POST['clause_choice']) ? sanitizeInput($_POST['clause_choice']) : 'default';
+
+if ($clause_choice === 'default' || $clause_choice === 'Payment Help') {
+    $clause_text = '4. Payment Coverage
+"Service Provider" agrees to cover the client\'s loan payments up to a maximum cumulative amount of 1,500. Payment will be made directly to the "Client\'s" behalf. This coverage is provided to alleviate financial strain on the "Client" while "Service Provider works towards "Client\'s" targeted resolution.
+The "Service Provider\'s" obligation will cease once
+a: The date a resolution is reached or;
+b: Once the total amount of covered payments reaches the coverage cap of $1,500.'; // Replace with actual default clause text
+} 
+else if ($clause_choice === '90-day Guarantee') 
+{
+    $clause_text = '<h2>4. 90-Day Money-Back Guarantee</h2>
+<ol type="a">
+    <li>If, within 90 days from the date of this Agreement, Service Provider has not secured a resolution which outweighs the fee, the Client may request a refund of the Retainer Fee.</li>
+    <li>To be eligible for the refund, Client must provide a written request to execute this clause no later than the 90th day following the execution of this Agreement.</li>
+    <li>Upon receipt of such notice, Service Provider will issue a refund of the full \${$amount} Retainer Fee or any payments made up to that point, whatever amount is smaller. within 30 days, provided no acceptable resolution has been reached.</li>
+    <li>This clause cannot be executed if the case is currently in litigation or if the case is on docket.</li>
+</ol>'; // Replace with actual custom clause text
+}
 
 // Format the creation date
 $agreement_date = date('jS \d\a\y \of F, Y', strtotime($creation_date));
@@ -68,6 +87,10 @@ if ($amount > 0 && $months > 0) {
     $first_payment = 0;
     $remaining_balance = 0;
     $payment_description = "Payment terms are not defined.";
+}
+
+if ($clause_choice == 'Payment Help') {
+    $payment_description .= 'Additionally, The "Client" agrees to provide accurate and timely information regarding their loan payments, including payment amounts, due dates, and creditor contact information. The "Client" must notify the "Service Provider" immediately of any changes to their loan payment details. ';
 }
 
 
