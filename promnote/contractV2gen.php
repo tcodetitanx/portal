@@ -125,7 +125,7 @@ Phone: {$phone}<br>
     <li>Negotiate suitable loan terms per clients directive.</li>
 </ol>
 <h2>2. Retainer Fee</h2>
-<p>Client agrees to pay Service Provider a retainer fee of {$amount} ("Retainer Fee"). This fee covers the cost of the services specified in Section 1.</p>
+<p>Client agrees to pay Service Provider a retainer fee of ${$amount} ("Retainer Fee"). This fee covers the cost of the services specified in Section 1.</p>
 <h2>3. Payment Terms</h2>
 <p>{$payment_description}</p><br>
 {$clause_text}
