@@ -53,18 +53,27 @@ if ($clause_choice === 'default' || $clause_choice === 'Payment Help') {
 The "Service Provider\'s" obligation will cease once
 a: The date a resolution is reached or;
 b: Once the total amount of covered payments reaches the coverage cap of $1,500.'; // Replace with actual default clause text
+$second_clause_text = "";
 } 
 else if ($clause_choice === '90-day Guarantee') 
 {
     $clause_text = '<h2>4. 90-Day Money-Back Guarantee</h2>
-<ol type="a">
-    <li>If, within 90 days from the date of this Agreement, Service Provider has not secured a resolution which outweighs the fee, the Client may request a refund of the Retainer Fee.</li>
-    <li>To be eligible for the refund, Client must provide a written request to execute this clause no later than the 90th day following the execution of this Agreement.</li>
-    <li>Upon receipt of such notice, Service Provider will issue a refund of the full \${$amount} Retainer Fee or any payments made up to that point, whatever amount is smaller. within 30 days, provided no acceptable resolution has been reached.</li>
-    <li>This clause cannot be executed if the case is currently in litigation or if the case is on docket.</li>
-</ol>'; // Replace with actual custom clause text
+    <ol type="a">
+        <li>If, within 90 days from the date of this Agreement, Service Provider has not secured a resolution which outweighs the fee, the Client may request a refund of the Retainer Fee.</li>
+        <li>To be eligible for the refund, Client must provide a written request to execute this clause no later than the 90th day following the execution of this Agreement.</li>
+        <li>Upon receipt of such notice, Service Provider will issue a refund of the full \${$amount} Retainer Fee or any payments made up to that point, whatever amount is smaller. within 30 days, provided no acceptable resolution has been reached.</li>
+        <li>This clause cannot be executed if the case is currently in litigation or if the case is on docket.</li>
+    </ol>'; // Replace with actual custom clause text
 
-$second_clause_text = "<li>By the Client: If Client demonstrates that the services or outcomes are not consistent with the given plan within the 90-day period, as outlined in Section 4.</li>";
+    $second_clause_text = 
+    "
+    <h2>9. Termination of Agreement</h2>
+    <p>This Agreement may be terminated by either party upon written notice:</p>
+    <ol type='a'>
+        <li>By the Client: If Client demonstrates that the services or outcomes are not consistent with the given plan within the 90-day period, as outlined in Section 4.</li>
+        <li>By the Service Provider: If Client fails to provide necessary documentation or cooperate with the process.</li>
+    </ol>
+    ";
 }
 
 // Format the creation date
@@ -144,22 +153,18 @@ Phone: {$phone}<br>
     <li>Cooperate with Service Provider to facilitate the loan dissolution process.</li>
 </ol>
 
-<h2>6. Termination of Agreement</h2>
-<p>This Agreement may be terminated by either party upon written notice:</p>
-<ol type="a">
-{$second_clause_text}
-    
-    <li>By the Service Provider: If Client fails to provide necessary documentation or cooperate with the process.</li>
-</ol>
 
-<h2>7. No Guarantee of Outcome</h2>
+
+<h2>6. No Guarantee of Outcome</h2>
 <p>While Service Provider will use its expertise to assist in dissolving the Client's solar loan, no specific outcome is guaranteed except for the return of the Retainer Fee if conditions outlined in Section 4 are met.</p>
 
-<h2>8. Governing Law</h2>
+<h2>7. Governing Law</h2>
 <p>This Agreement shall be governed by and construed in accordance with the laws of the State of Utah.</p>
 
-<h2>9. Entire Agreement</h2>
+<h2>8. Entire Agreement</h2>
 <p>This Agreement constitutes the entire understanding between the parties and supersedes all prior discussions, agreements, or understandings of any kind. Any modifications to this Agreement must be made in writing and signed by both parties.</p>
+
+{$second_clause_text}
 
 <p>IN WITNESS WHEREOF, the parties hereto have executed this Service Agreement as of the day and year first above written.</p>
 
