@@ -60,7 +60,7 @@ b. Once the total amount of covered payments reaches the coverage cap of $1,500.
     <ol type="a">
         <li>If, within 90 days from the date of this Agreement, Service Provider has not secured a resolution which outweighs the fee, the Client may request a refund of the Retainer Fee.</li>
         <li>To be eligible for the refund, Client must provide a written request to execute this clause no later than the 90th day following the execution of this Agreement.</li>
-        <li>Upon receipt of such notice, Service Provider will issue a refund of the full \${$amount} Retainer Fee or any payments made up to that point, whatever amount is smaller. within 30 days, provided no acceptable resolution has been reached.</li>
+        <li>Upon receipt of such notice, Service Provider will issue a refund of the full '. $amount . ' Retainer Fee or any payments made up to that point, whatever amount is smaller. within 30 days, provided no acceptable resolution has been reached.</li>
         <li>This clause cannot be executed if the case is currently in litigation or if the case is on docket.</li>
     </ol>';
     $second_clause_text = "
