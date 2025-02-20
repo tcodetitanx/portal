@@ -27,7 +27,7 @@ label {
     font-weight: bold;
 }
 
-input, textarea {
+input:not([type="radio"]), textarea {
     width: 100%;
     padding: 8px;
     border: 1px solid #ddd;
@@ -69,4 +69,9 @@ button {
     margin: 0 10px;
 }
 
+.radio-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px; /* Adds spacing between choices */
+}
   

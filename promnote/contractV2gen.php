@@ -63,6 +63,8 @@ else if ($clause_choice === '90-day Guarantee')
     <li>Upon receipt of such notice, Service Provider will issue a refund of the full \${$amount} Retainer Fee or any payments made up to that point, whatever amount is smaller. within 30 days, provided no acceptable resolution has been reached.</li>
     <li>This clause cannot be executed if the case is currently in litigation or if the case is on docket.</li>
 </ol>'; // Replace with actual custom clause text
+
+$second_clause_text = "<li>By the Client: If Client demonstrates that the services or outcomes are not consistent with the given plan within the 90-day period, as outlined in Section 4.</li>";
 }
 
 // Format the creation date
@@ -128,12 +130,12 @@ Phone: {$phone}<br>
 </ol>
 
 <h2>2. Retainer Fee</h2>
-<p>Client agrees to pay Service Provider a retainer fee of \${$amount} ("Retainer Fee"). This fee covers the cost of the services specified in Section 1.</p>
+<p>Client agrees to pay Service Provider a retainer fee of {$amount} ("Retainer Fee"). This fee covers the cost of the services specified in Section 1.</p>
 
 <h2>3. Payment Terms</h2>
 <p>{$payment_description}</p><br>
 
-$clause_text
+{$clause_text}
 
 <br><h2>5. Client Responsibilities</h2>
 <p>Client agrees to:</p>
@@ -145,7 +147,8 @@ $clause_text
 <h2>6. Termination of Agreement</h2>
 <p>This Agreement may be terminated by either party upon written notice:</p>
 <ol type="a">
-    <li>By the Client: If Client demonstrates that the services or outcomes are not consistent with the given plan within the 90-day period, as outlined in Section 4.</li>
+{$second_clause_text}
+    
     <li>By the Service Provider: If Client fails to provide necessary documentation or cooperate with the process.</li>
 </ol>
 
