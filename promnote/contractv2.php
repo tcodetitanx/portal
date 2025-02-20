@@ -48,7 +48,7 @@ if (!isset($_SESSION["authenticated"]) || $_SESSION["authenticated"] !== true) {
             <input type="number" id="amount" name="amount" value="2499" required>
 
             <label for="months">Months:</label>
-            <input type="number" id="months" name="months" value="1" required>
+            <input type="number" id="months" name="months" value="0" required>
 
             <button type="submit">Generate PDF</button>
         </form>
