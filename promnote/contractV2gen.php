@@ -171,8 +171,8 @@ Teléfono: 844-402-9466<br>
 {$address}<br>
 Teléfono: {$phone}<br>
 ("Cliente")</p>
-<p>CONSIDERANDO QUE, el Cliente tiene un préstamo solar que desea disolver, y el Proveedor de Servicios tiene la experiencia y la capacidad para ayudar en este asunto;</p>
-<p>CONSIDERANDO QUE, el Cliente acepta contratar al Proveedor de Servicios con el propósito de revisar la validez del contrato y reparar el crédito relacionado con la disolución del préstamo solar;</p>
+<p>En CONSIDERACION, el Cliente tiene un préstamo solar que desea disolver, y el Proveedor de Servicios tiene la experiencia y la capacidad para ayudar en este asunto;</p>
+<p>En CONSIDERACION, el Cliente acepta contratar al Proveedor de Servicios con el propósito de revisar la validez del contrato y reparar el crédito relacionado con la disolución del préstamo solar;</p>
 <p>AHORA, POR LO TANTO, las partes acuerdan lo siguiente:</p>
 <h2>1. Alcance de los Servicios</h2>
 <p>El Proveedor de Servicios acepta proporcionar los siguientes servicios:</p>
