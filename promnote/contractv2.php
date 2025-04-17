@@ -31,7 +31,7 @@ if (!isset($_SESSION["authenticated"]) || $_SESSION["authenticated"] !== true) {
 
             <label for="creation_date">Date of contract creation:</label>
             <input type="date" id="creation_date" name="creation_date" required>
-            
+
             <label>Clause Choice:</label>
             <div class="radio-group">
             <div>
@@ -49,6 +49,18 @@ if (!isset($_SESSION["authenticated"]) || $_SESSION["authenticated"] !== true) {
 
             <label for="months">Months:</label>
             <input type="number" id="months" name="months" value="0" required>
+
+            <label>Language / Idioma:</label>
+            <div class="radio-group">
+            <div>
+                <input type="radio" id="english" name="language" value="english" checked required>
+                <label for="english">English</label>
+            </div>
+            <div>
+                <input type="radio" id="spanish" name="language" value="spanish" required>
+                <label for="spanish">Español (Spanish)</label>
+            </div>
+            </div>
 
             <button type="submit">Generate PDF</button>
         </form>
