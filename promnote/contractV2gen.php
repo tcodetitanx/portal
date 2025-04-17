@@ -163,7 +163,7 @@ if ($language === 'spanish') {
 <h1>Acuerdo de Servicio</h1>
 <p>Este Acuerdo de Servicio ("Acuerdo") se celebra el {$agreement_date}, entre:</p>
 <p><strong>Axiom Corp</strong><br>
-1510 N State Street STE 300, Lindon, UT 84042<br>
+1510 N State Street STE 300, Orem, UT 84057<br>
 Teléfono: 844-402-9466<br>
 ("Proveedor de Servicios")</p>
 <p>y</p>
@@ -222,7 +222,7 @@ EOD;
 <h1>Service Agreement</h1>
 <p>This Service Agreement ("Agreement") is made and entered into on this {$agreement_date}, by and between:</p>
 <p><strong>Axiom Corp</strong><br>
-1510 N State Street STE 300, Lindon, UT 84042<br>
+1510 N State Street STE 300, Orem, UT 84057<br>
 Phone: 844-402-9466<br>
 ("Service Provider")</p>
 <p>and</p>
