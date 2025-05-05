@@ -39,6 +39,14 @@ if (!isset($_SESSION["authenticated"]) || $_SESSION["authenticated"] !== true) {
     <a href="./mlpa/mlpa.php" style="text-decoration:none;">
         <button class="tool-button">MLPA Page</button>
     </a><br><br>
+
+    <a href="./crm/index.php" style="text-decoration:none;">
+        <button class="tool-button">CRM System</button>
+    </a><br><br>
+
+    <a href="./promnote/statementGen_form.php" style="text-decoration:none;">
+        <button class="tool-button">Statement Generation</button>
+    </a><br><br>
 </div>
 </body>
 </html>
