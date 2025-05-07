@@ -51,7 +51,14 @@ $sql = "CREATE TABLE IF NOT EXISTS contacts (
     first_noe DATE,
     final_noe DATE,
     court_date DATE,
+    suit_filed DATE,
     status VARCHAR(100),
+    first_noe_tracking_number VARCHAR(50),
+    final_noe_tracking_number VARCHAR(50),
+    suit_filed_tracking_number VARCHAR(50),
+    first_noe_tracking_confirmed TINYINT(1) DEFAULT 0,
+    final_noe_tracking_confirmed TINYINT(1) DEFAULT 0,
+    suit_filed_tracking_confirmed TINYINT(1) DEFAULT 0,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 )";
@@ -102,13 +109,46 @@ if ($row['count'] == 0) {
         ['Monica Escobedo', 'monica@example.com', '105'],
         ['William Tavarez', 'william@example.com', '106']
     ];
-    
+
     foreach ($reps as $rep) {
         $sql = "INSERT INTO reps (name, email, extension) VALUES (?, ?, ?)";
         $stmt = mysqli_prepare($conn, $sql);
         mysqli_stmt_bind_param($stmt, "sss", $rep[0], $rep[1], $rep[2]);
         mysqli_stmt_execute($stmt);
     }
+}
+
+// Contracts table
+$sql = "CREATE TABLE IF NOT EXISTS contracts (
+    id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    contact_id INT(11) NOT NULL,
+    payment_link_id INT(11) NOT NULL,
+    file_path VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (contact_id) REFERENCES contacts(id) ON DELETE CASCADE,
+    FOREIGN KEY (payment_link_id) REFERENCES payment_links(id) ON DELETE CASCADE
+)";
+
+if (!mysqli_query($conn, $sql)) {
+    die("ERROR: Could not create contracts table. " . mysqli_error($conn));
+}
+
+// Mail tracking table
+$sql = "CREATE TABLE IF NOT EXISTS mail_tracking (
+    id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    contact_id INT(11) NOT NULL,
+    tracking_number VARCHAR(50) NOT NULL,
+    tracking_type ENUM('first_noe', 'final_noe', 'suit_filed') NOT NULL,
+    status VARCHAR(100),
+    status_details TEXT,
+    delivery_date DATE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (contact_id) REFERENCES contacts(id) ON DELETE CASCADE
+)";
+
+if (!mysqli_query($conn, $sql)) {
+    die("ERROR: Could not create mail_tracking table. " . mysqli_error($conn));
 }
 
 // Return the connection

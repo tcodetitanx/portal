@@ -57,7 +57,7 @@ mysqli_close($conn);
 
 <form id="editContactForm" action="update_contact.php" method="post">
     <input type="hidden" name="id" value="<?php echo $contact['id']; ?>">
-    
+
     <ul class="nav nav-tabs mb-3" id="contactTabs" role="tablist">
         <li class="nav-item" role="presentation">
             <button class="nav-link active" id="details-tab" data-bs-toggle="tab" data-bs-target="#details" type="button" role="tab" aria-controls="details" aria-selected="true">Contact Details</button>
@@ -69,13 +69,16 @@ mysqli_close($conn);
             <button class="nav-link" id="payment-tab" data-bs-toggle="tab" data-bs-target="#payment" type="button" role="tab" aria-controls="payment" aria-selected="false">Payment Info</button>
         </li>
         <li class="nav-item" role="presentation">
+            <button class="nav-link" id="mail-tracking-tab" data-bs-toggle="tab" data-bs-target="#mail-tracking" type="button" role="tab" aria-controls="mail-tracking" aria-selected="false">Mail Tracking</button>
+        </li>
+        <li class="nav-item" role="presentation">
             <button class="nav-link" id="notes-tab" data-bs-toggle="tab" data-bs-target="#notes" type="button" role="tab" aria-controls="notes" aria-selected="false">Notes</button>
         </li>
         <li class="nav-item" role="presentation">
             <button class="nav-link" id="actions-tab" data-bs-toggle="tab" data-bs-target="#actions" type="button" role="tab" aria-controls="actions" aria-selected="false">Actions</button>
         </li>
     </ul>
-    
+
     <div class="tab-content" id="contactTabsContent">
         <!-- Contact Details Tab -->
         <div class="tab-pane fade show active" id="details" role="tabpanel" aria-labelledby="details-tab">
@@ -102,7 +105,7 @@ mysqli_close($conn);
                     <input type="number" class="form-control" id="edit_interest_level" name="interest_level" min="0" max="10" value="<?php echo htmlspecialchars($contact['interest_level']); ?>">
                 </div>
             </div>
-            
+
             <div class="row mb-3">
                 <div class="col-md-6">
                     <label for="edit_name" class="form-label">Name</label>
@@ -113,7 +116,7 @@ mysqli_close($conn);
                     <input type="email" class="form-control" id="edit_email" name="email" value="<?php echo htmlspecialchars($contact['email']); ?>">
                 </div>
             </div>
-            
+
             <div class="row mb-3">
                 <div class="col-md-6">
                     <label for="edit_phone_number" class="form-label">Phone Number</label>
@@ -124,14 +127,14 @@ mysqli_close($conn);
                     <input type="text" class="form-control" id="edit_loan_institution" name="loan_institution" value="<?php echo htmlspecialchars($contact['loan_institution']); ?>">
                 </div>
             </div>
-            
+
             <div class="row mb-3">
                 <div class="col-md-12">
                     <label for="edit_address" class="form-label">Address</label>
                     <input type="text" class="form-control" id="edit_address" name="address" value="<?php echo htmlspecialchars($contact['address']); ?>">
                 </div>
             </div>
-            
+
             <div class="row mb-3">
                 <div class="col-md-4">
                     <label for="edit_city" class="form-label">City</label>
@@ -147,7 +150,7 @@ mysqli_close($conn);
                 </div>
             </div>
         </div>
-        
+
         <!-- Dates & Status Tab -->
         <div class="tab-pane fade" id="dates" role="tabpanel" aria-labelledby="dates-tab">
             <div class="row mb-3">
@@ -164,22 +167,26 @@ mysqli_close($conn);
                     <input type="date" class="form-control" id="edit_call_back_date" name="call_back_date" value="<?php echo $contact['call_back_date']; ?>">
                 </div>
             </div>
-            
+
             <div class="row mb-3">
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <label for="edit_first_noe" class="form-label">First NOE Date</label>
                     <input type="date" class="form-control" id="edit_first_noe" name="first_noe" value="<?php echo $contact['first_noe']; ?>">
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <label for="edit_final_noe" class="form-label">Final NOE Date</label>
                     <input type="date" class="form-control" id="edit_final_noe" name="final_noe" value="<?php echo $contact['final_noe']; ?>">
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <label for="edit_court_date" class="form-label">Court Date</label>
                     <input type="date" class="form-control" id="edit_court_date" name="court_date" value="<?php echo $contact['court_date']; ?>">
                 </div>
+                <div class="col-md-3">
+                    <label for="edit_suit_filed" class="form-label">Suit Filed Date</label>
+                    <input type="date" class="form-control" id="edit_suit_filed" name="suit_filed" value="<?php echo $contact['suit_filed']; ?>">
+                </div>
             </div>
-            
+
             <div class="row mb-3">
                 <div class="col-md-6">
                     <label for="edit_step" class="form-label">Step</label>
@@ -196,7 +203,7 @@ mysqli_close($conn);
                     <input type="text" class="form-control" id="edit_status" name="status" value="<?php echo htmlspecialchars($contact['status']); ?>">
                 </div>
             </div>
-            
+
             <div class="row mb-3">
                 <div class="col-md-6">
                     <label for="edit_obstacle" class="form-label">Obstacle</label>
@@ -207,7 +214,7 @@ mysqli_close($conn);
                     <input type="text" class="form-control" id="edit_next_step" name="next_step" value="<?php echo htmlspecialchars($contact['next_step']); ?>">
                 </div>
             </div>
-            
+
             <div class="row mb-3">
                 <div class="col-md-6">
                     <label for="edit_past_due_on_loan" class="form-label">Past Due on Loan</label>
@@ -218,7 +225,7 @@ mysqli_close($conn);
                 </div>
             </div>
         </div>
-        
+
         <!-- Payment Info Tab -->
         <div class="tab-pane fade" id="payment" role="tabpanel" aria-labelledby="payment-tab">
             <div class="row mb-3">
@@ -235,7 +242,7 @@ mysqli_close($conn);
                     <input type="number" step="0.01" class="form-control" id="edit_contract_amount" name="contract_amount" value="<?php echo $contact['contract_amount']; ?>">
                 </div>
             </div>
-            
+
             <h5 class="mt-4">Payment Links</h5>
             <div id="payment_links_container">
                 <?php if (count($payment_links) > 0): ?>
@@ -266,10 +273,49 @@ mysqli_close($conn);
                     <p>No payment links found.</p>
                 <?php endif; ?>
             </div>
-            
+
             <button type="button" class="btn btn-success btn-sm mt-2" id="add_payment_link">Add Payment Link</button>
         </div>
-        
+
+        <!-- Mail Tracking Tab -->
+        <div class="tab-pane fade" id="mail-tracking" role="tabpanel" aria-labelledby="mail-tracking-tab">
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <label for="edit_first_noe_tracking_number" class="form-label">First NOE Tracking Number</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="edit_first_noe_tracking_number" name="first_noe_tracking_number" value="<?php echo htmlspecialchars($contact['first_noe_tracking_number']); ?>">
+                        <button class="btn btn-outline-secondary track-mail-btn" type="button" data-tracking-field="first_noe_tracking_number">Track Mail</button>
+                    </div>
+                    <div class="form-text"><?php echo $contact['first_noe_tracking_confirmed'] ? 'Delivery confirmed' : 'Delivery not confirmed'; ?></div>
+                </div>
+                <div class="col-md-4">
+                    <label for="edit_final_noe_tracking_number" class="form-label">Final NOE Tracking Number</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="edit_final_noe_tracking_number" name="final_noe_tracking_number" value="<?php echo htmlspecialchars($contact['final_noe_tracking_number']); ?>">
+                        <button class="btn btn-outline-secondary track-mail-btn" type="button" data-tracking-field="final_noe_tracking_number">Track Mail</button>
+                    </div>
+                    <div class="form-text"><?php echo $contact['final_noe_tracking_confirmed'] ? 'Delivery confirmed' : 'Delivery not confirmed'; ?></div>
+                </div>
+                <div class="col-md-4">
+                    <label for="edit_suit_filed_tracking_number" class="form-label">Suit Filed Tracking Number</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="edit_suit_filed_tracking_number" name="suit_filed_tracking_number" value="<?php echo htmlspecialchars($contact['suit_filed_tracking_number']); ?>">
+                        <button class="btn btn-outline-secondary track-mail-btn" type="button" data-tracking-field="suit_filed_tracking_number">Track Mail</button>
+                    </div>
+                    <div class="form-text"><?php echo $contact['suit_filed_tracking_confirmed'] ? 'Delivery confirmed' : 'Delivery not confirmed'; ?></div>
+                </div>
+            </div>
+
+            <div class="row mt-4">
+                <div class="col-md-12">
+                    <h5>Tracking History</h5>
+                    <div id="tracking-history">
+                        <p>Select a tracking number and click "Track Mail" to view tracking history.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- Notes Tab -->
         <div class="tab-pane fade" id="notes" role="tabpanel" aria-labelledby="notes-tab">
             <div class="row mb-3">
@@ -279,7 +325,7 @@ mysqli_close($conn);
                 </div>
             </div>
         </div>
-        
+
         <!-- Actions Tab -->
         <div class="tab-pane fade" id="actions" role="tabpanel" aria-labelledby="actions-tab">
             <div class="row mb-4">
@@ -290,25 +336,20 @@ mysqli_close($conn);
                     <button type="button" class="btn btn-info" id="send_docusign_btn">Send Docusign</button>
                 </div>
             </div>
-            
+
             <!-- Contract Options (initially hidden) -->
             <div id="contract_options" class="d-none">
                 <h5>Contract Options</h5>
                 <div class="row mb-3">
                     <div class="col-md-6">
                         <label for="contract_amount" class="form-label">Contract Amount</label>
-                        <input type="number" step="0.01" class="form-control" id="contract_amount" name="contract_amount" value="<?php echo $contact['contract_amount']; ?>">
+                        <input type="number" step="0.01" class="form-control" id="contract_amount" name="contract_amount" value="<?php echo $contact['contract_amount'] > 0 ? $contact['contract_amount'] : 2499.00; ?>">
                     </div>
                     <div class="col-md-6">
-                        <label for="contract_months" class="form-label">Months</label>
+                        <label for="contract_months" class="form-label">Payment Option</label>
                         <select class="form-select" id="contract_months" name="contract_months">
                             <option value="0">Pay in Full</option>
                             <option value="1">1 Month</option>
-                            <option value="2">2 Months</option>
-                            <option value="3">3 Months</option>
-                            <option value="4">4 Months</option>
-                            <option value="5">5 Months</option>
-                            <option value="6">6 Months</option>
                         </select>
                     </div>
                 </div>
@@ -337,7 +378,7 @@ mysqli_close($conn);
             </div>
         </div>
     </div>
-    
+
     <div class="modal-footer mt-4">
         <button type="button" class="btn btn-danger me-auto" id="delete_contact_btn">Delete Contact</button>
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
@@ -373,17 +414,17 @@ mysqli_close($conn);
         $('#delete_contact_btn').click(function() {
             $('#deleteConfirmModal').modal('show');
         });
-        
+
         // Handle update contract button
         $('#update_contract_btn').click(function() {
             $('#contract_options').removeClass('d-none');
         });
-        
+
         // Handle cancel contract button
         $('#cancel_contract_btn').click(function() {
             $('#contract_options').addClass('d-none');
         });
-        
+
         // Handle generate contract button
         $('#generate_contract_btn').click(function() {
             const contactId = $('input[name="id"]').val();
@@ -391,18 +432,18 @@ mysqli_close($conn);
             const months = $('#contract_months').val();
             const language = $('#contract_language').val();
             const clause = $('#contract_clause').val();
-            
+
             // Open contract generation page in new window
             window.open(`generate_contract.php?id=${contactId}&amount=${amount}&months=${months}&language=${language}&clause=${clause}`, '_blank');
-            
+
             // Hide contract options
             $('#contract_options').addClass('d-none');
         });
-        
+
         // Handle send contract button
         $('#send_contract_btn').click(function() {
             const contactId = $('input[name="id"]').val();
-            
+
             // Confirm before sending
             if (confirm('Are you sure you want to send the contract to this contact?')) {
                 $.ajax({
@@ -418,11 +459,11 @@ mysqli_close($conn);
                 });
             }
         });
-        
+
         // Handle send docusign button
         $('#send_docusign_btn').click(function() {
             const contactId = $('input[name="id"]').val();
-            
+
             // Confirm before sending
             if (confirm('Are you sure you want to send a Docusign contract to this contact?')) {
                 $.ajax({
@@ -438,7 +479,7 @@ mysqli_close($conn);
                 });
             }
         });
-        
+
         // Handle add payment link button
         $('#add_payment_link').click(function() {
             const index = $('.payment-link-row').length;
@@ -465,13 +506,78 @@ mysqli_close($conn);
                     </div>
                 </div>
             `;
-            
+
             $('#payment_links_container').append(newRow);
         });
-        
+
         // Handle remove payment link button (using event delegation)
         $(document).on('click', '.remove-payment-link', function() {
             $(this).closest('.payment-link-row').remove();
+        });
+
+        // Handle track mail button
+        $('.track-mail-btn').click(function() {
+            const trackingField = $(this).data('tracking-field');
+            const trackingNumber = $('#edit_' + trackingField).val();
+            const contactId = $('input[name="id"]').val();
+
+            if (!trackingNumber) {
+                alert('Please enter a tracking number first.');
+                return;
+            }
+
+            // Show loading message
+            $('#tracking-history').html('<p>Loading tracking information...</p>');
+
+            // Make AJAX request to track mail
+            $.ajax({
+                url: 'track_mail.php',
+                type: 'POST',
+                data: {
+                    contact_id: contactId,
+                    tracking_number: trackingNumber,
+                    tracking_type: trackingField.replace('_tracking_number', '')
+                },
+                success: function(response) {
+                    try {
+                        const data = JSON.parse(response);
+                        if (data.success) {
+                            // Display tracking history
+                            let historyHtml = '<div class="alert alert-success">Tracking information retrieved successfully.</div>';
+                            historyHtml += '<table class="table table-striped">';
+                            historyHtml += '<thead><tr><th>Date</th><th>Status</th><th>Location</th></tr></thead>';
+                            historyHtml += '<tbody>';
+
+                            if (data.tracking_history && data.tracking_history.length > 0) {
+                                data.tracking_history.forEach(function(entry) {
+                                    historyHtml += `<tr>
+                                        <td>${entry.date}</td>
+                                        <td>${entry.status}</td>
+                                        <td>${entry.location}</td>
+                                    </tr>`;
+                                });
+                            } else {
+                                historyHtml += '<tr><td colspan="3">No tracking history available.</td></tr>';
+                            }
+
+                            historyHtml += '</tbody></table>';
+                            $('#tracking-history').html(historyHtml);
+
+                            // Update delivery status if delivered
+                            if (data.delivered) {
+                                $(`#edit_${trackingField}`).closest('.col-md-4').find('.form-text').text('Delivery confirmed');
+                            }
+                        } else {
+                            $('#tracking-history').html(`<div class="alert alert-danger">${data.message}</div>`);
+                        }
+                    } catch (e) {
+                        $('#tracking-history').html('<div class="alert alert-danger">Error parsing response from server.</div>');
+                    }
+                },
+                error: function() {
+                    $('#tracking-history').html('<div class="alert alert-danger">Error tracking mail. Please try again.</div>');
+                }
+            });
         });
     });
 </script>

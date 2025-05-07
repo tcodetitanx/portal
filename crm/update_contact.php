@@ -48,7 +48,16 @@ $contract_amount = isset($_POST['contract_amount']) && is_numeric($_POST['contra
 $first_noe = !empty($_POST['first_noe']) ? sanitizeInput($conn, $_POST['first_noe']) : null;
 $final_noe = !empty($_POST['final_noe']) ? sanitizeInput($conn, $_POST['final_noe']) : null;
 $court_date = !empty($_POST['court_date']) ? sanitizeInput($conn, $_POST['court_date']) : null;
+$suit_filed = !empty($_POST['suit_filed']) ? sanitizeInput($conn, $_POST['suit_filed']) : null;
 $status = isset($_POST['status']) ? sanitizeInput($conn, $_POST['status']) : '';
+
+// Mail tracking fields
+$first_noe_tracking_number = isset($_POST['first_noe_tracking_number']) ? sanitizeInput($conn, $_POST['first_noe_tracking_number']) : '';
+$final_noe_tracking_number = isset($_POST['final_noe_tracking_number']) ? sanitizeInput($conn, $_POST['final_noe_tracking_number']) : '';
+$suit_filed_tracking_number = isset($_POST['suit_filed_tracking_number']) ? sanitizeInput($conn, $_POST['suit_filed_tracking_number']) : '';
+$first_noe_tracking_confirmed = isset($_POST['first_noe_tracking_confirmed']) && $_POST['first_noe_tracking_confirmed'] == '1' ? 1 : 0;
+$final_noe_tracking_confirmed = isset($_POST['final_noe_tracking_confirmed']) && $_POST['final_noe_tracking_confirmed'] == '1' ? 1 : 0;
+$suit_filed_tracking_confirmed = isset($_POST['suit_filed_tracking_confirmed']) && $_POST['suit_filed_tracking_confirmed'] == '1' ? 1 : 0;
 
 // Validate contact ID
 if ($id <= 0) {
@@ -65,63 +74,77 @@ if (!in_array($contact_type, ['clients', 'prospects', 'closed'])) {
 }
 
 // Update the contact
-$sql = "UPDATE contacts SET 
-    contact_type = ?, 
-    name = ?, 
-    rep = ?, 
-    interest_level = ?, 
-    initial_contact_date = ?, 
-    obstacle = ?, 
-    next_step = ?, 
-    update_date = ?, 
-    call_back_date = ?, 
-    email = ?, 
-    phone_number = ?, 
-    address = ?, 
-    city = ?, 
-    state = ?, 
-    zip = ?, 
-    loan_institution = ?, 
-    step = ?, 
-    past_due_on_loan = ?, 
-    additional_notes = ?, 
-    payment_date = ?, 
-    next_payment_date = ?, 
-    contract_amount = ?, 
-    first_noe = ?, 
-    final_noe = ?, 
-    court_date = ?, 
-    status = ? 
+$sql = "UPDATE contacts SET
+    contact_type = ?,
+    name = ?,
+    rep = ?,
+    interest_level = ?,
+    initial_contact_date = ?,
+    obstacle = ?,
+    next_step = ?,
+    update_date = ?,
+    call_back_date = ?,
+    email = ?,
+    phone_number = ?,
+    address = ?,
+    city = ?,
+    state = ?,
+    zip = ?,
+    loan_institution = ?,
+    step = ?,
+    past_due_on_loan = ?,
+    additional_notes = ?,
+    payment_date = ?,
+    next_payment_date = ?,
+    contract_amount = ?,
+    first_noe = ?,
+    final_noe = ?,
+    court_date = ?,
+    suit_filed = ?,
+    status = ?,
+    first_noe_tracking_number = ?,
+    final_noe_tracking_number = ?,
+    suit_filed_tracking_number = ?,
+    first_noe_tracking_confirmed = ?,
+    final_noe_tracking_confirmed = ?,
+    suit_filed_tracking_confirmed = ?
     WHERE id = ?";
 
 $stmt = $conn->prepare($sql);
-$stmt->bind_param("sssississssssssisssssdssssi", 
-    $contact_type, 
-    $name, 
-    $rep, 
-    $interest_level, 
-    $initial_contact_date, 
-    $obstacle, 
-    $next_step, 
-    $update_date, 
-    $call_back_date, 
-    $email, 
-    $phone_number, 
-    $address, 
-    $city, 
-    $state, 
-    $zip, 
-    $loan_institution, 
-    $step, 
-    $past_due_on_loan, 
-    $additional_notes, 
-    $payment_date, 
-    $next_payment_date, 
-    $contract_amount, 
-    $first_noe, 
-    $final_noe, 
-    $court_date, 
-    $status, 
+$stmt->bind_param("sssississssssssisssssdsssssssssiiiii",
+    $contact_type,
+    $name,
+    $rep,
+    $interest_level,
+    $initial_contact_date,
+    $obstacle,
+    $next_step,
+    $update_date,
+    $call_back_date,
+    $email,
+    $phone_number,
+    $address,
+    $city,
+    $state,
+    $zip,
+    $loan_institution,
+    $step,
+    $past_due_on_loan,
+    $additional_notes,
+    $payment_date,
+    $next_payment_date,
+    $contract_amount,
+    $first_noe,
+    $final_noe,
+    $court_date,
+    $suit_filed,
+    $status,
+    $first_noe_tracking_number,
+    $final_noe_tracking_number,
+    $suit_filed_tracking_number,
+    $first_noe_tracking_confirmed,
+    $final_noe_tracking_confirmed,
+    $suit_filed_tracking_confirmed,
     $id
 );
 
@@ -137,13 +160,13 @@ if (isset($_POST['payment_link_id']) && is_array($_POST['payment_link_id'])) {
     $payment_amounts = $_POST['payment_amount'];
     $payment_urls = $_POST['payment_url'];
     $payment_pay_in_fulls = $_POST['payment_pay_in_full'];
-    
+
     for ($i = 0; $i < count($payment_link_ids); $i++) {
         $link_id = $payment_link_ids[$i];
         $amount = floatval($payment_amounts[$i]);
         $url = sanitizeInput($conn, $payment_urls[$i]);
         $pay_in_full = $payment_pay_in_fulls[$i] == 'Y' ? 'Y' : 'N';
-        
+
         if ($link_id == 'new') {
             // Insert new payment link
             $insert_sql = "INSERT INTO payment_links (contact_id, amount, url, pay_in_full) VALUES (?, ?, ?, ?)";

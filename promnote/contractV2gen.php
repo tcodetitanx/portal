@@ -38,15 +38,25 @@ function sanitizeInput($input) {
     return htmlspecialchars(trim($input), ENT_QUOTES, 'UTF-8');
 }
 
-// Get data from POST parameters
-$name = isset($_POST['name']) ? sanitizeInput($_POST['name']) : 'Client Name';
-$address = isset($_POST['address']) ? sanitizeInput($_POST['address']) : 'Client Address';
-$phone = isset($_POST['phone']) ? sanitizeInput($_POST['phone']) : 'Client Phone';
-$creation_date = isset($_POST['creation_date']) ? sanitizeInput($_POST['creation_date']) : date('Y-m-d');
-$amount = isset($_POST['amount']) && is_numeric($_POST['amount']) ? sanitizeInput($_POST['amount']) : 0;
-$months = isset($_POST['months']) && is_numeric($_POST['months']) ? (int)sanitizeInput($_POST['months']) : 0;
-$clause_choice = isset($_POST['clause_choice']) ? sanitizeInput($_POST['clause_choice']) : 'default';
-$language = isset($_POST['language']) ? sanitizeInput($_POST['language']) : 'english';
+// Get data from POST or GET parameters
+$name = isset($_POST['name']) ? sanitizeInput($_POST['name']) : (isset($_GET['name']) ? sanitizeInput($_GET['name']) : 'Client Name');
+$address = isset($_POST['address']) ? sanitizeInput($_POST['address']) : (isset($_GET['address']) ? sanitizeInput($_GET['address']) : 'Client Address');
+$phone = isset($_POST['phone']) ? sanitizeInput($_POST['phone']) : (isset($_GET['phone']) ? sanitizeInput($_GET['phone']) : 'Client Phone');
+$creation_date = isset($_POST['creation_date']) ? sanitizeInput($_POST['creation_date']) : (isset($_GET['creation_date']) ? sanitizeInput($_GET['creation_date']) : date('Y-m-d'));
+$amount = isset($_POST['amount']) && is_numeric($_POST['amount']) ? (float)sanitizeInput($_POST['amount']) : (isset($_GET['amount']) && is_numeric($_GET['amount']) ? (float)sanitizeInput($_GET['amount']) : 2499.00);
+$months = isset($_POST['months']) && is_numeric($_POST['months']) ? (int)sanitizeInput($_POST['months']) : (isset($_GET['months']) && is_numeric($_GET['months']) ? (int)sanitizeInput($_GET['months']) : 0);
+$clause_choice = isset($_POST['clause_choice']) ? sanitizeInput($_POST['clause_choice']) : (isset($_GET['clause_choice']) ? sanitizeInput($_GET['clause_choice']) : 'default');
+$language = isset($_POST['language']) ? sanitizeInput($_POST['language']) : (isset($_GET['language']) ? sanitizeInput($_GET['language']) : 'english');
+
+// Ensure amount is never 0
+if ($amount <= 0) {
+    $amount = 2499.00;
+}
+
+// Restrict months to either 0 (pay in full) or 1
+if ($months > 1) {
+    $months = 1;
+}
 
 // Define Spanish translations for clause text
 $payment_help_en = '<h2>4. Payment Coverage</h2>
@@ -115,34 +125,26 @@ if ($language === 'spanish') {
 }
 
 // Payment terms logic with language support
-if ($amount > 0) {
-    if ($months == 0) {
-        if ($language === 'spanish') {
-            $payment_description = "El monto total de \${$amount} se debe pagar al momento de la ejecución de este Acuerdo.";
-        } else {
-            $payment_description = "The full amount of \${$amount} is due upon execution of this Agreement.";
-        }
-        $remaining_balance = 0;
-        $first_payment = number_format(round($amount, 2), 2);
-    } else {
-        $num_of_payments = $months + 1;
-        $installment_amount = $amount / $num_of_payments;
-        $first_payment = number_format(round($installment_amount, 2), 2);
-        $remaining_balance = round($amount - $installment_amount, 2);
-
-        if ($language === 'spanish') {
-            $payment_description = "El primer pago de \${$first_payment} se debe realizar en la fecha de ejecución de este acuerdo. El saldo restante de \${$remaining_balance} se dividirá en {$months} pagos mensuales iguales de \${$first_payment} cada uno.";
-        } else {
-            $payment_description = "The first payment of \${$first_payment} is due on the date of execution of this agreement. The remaining balance of \${$remaining_balance} will be divided into {$months} equal monthly payments of \${$first_payment} each.";
-        }
-    }
-} else {
-    $first_payment = 0;
-    $remaining_balance = 0;
+if ($months == 0) {
+    // Pay in full
     if ($language === 'spanish') {
-        $payment_description = "Los términos de pago no están definidos.";
+        $payment_description = "El monto total de \${$amount} se debe pagar al momento de la ejecución de este Acuerdo.";
     } else {
-        $payment_description = "Payment terms are not defined.";
+        $payment_description = "The full amount of \${$amount} is due upon execution of this Agreement.";
+    }
+    $remaining_balance = 0;
+    $first_payment = number_format(round($amount, 2), 2);
+} else {
+    // 1 month payment plan (2 payments)
+    $num_of_payments = 2; // Initial payment + 1 month
+    $installment_amount = $amount / $num_of_payments;
+    $first_payment = number_format(round($installment_amount, 2), 2);
+    $remaining_balance = round($amount - $installment_amount, 2);
+
+    if ($language === 'spanish') {
+        $payment_description = "El primer pago de \${$first_payment} se debe realizar en la fecha de ejecución de este acuerdo. El saldo restante de \${$remaining_balance} se dividirá en {$months} pagos mensuales iguales de \${$first_payment} cada uno.";
+    } else {
+        $payment_description = "The first payment of \${$first_payment} is due on the date of execution of this agreement. The remaining balance of \${$remaining_balance} will be divided into {$months} equal monthly payments of \${$first_payment} each.";
     }
 }
 
@@ -292,6 +294,33 @@ if ($current_y + $signature_height_estimate > $page_height - $bottom_margin) {
 // Output signature section with nobreak to keep it together
 $pdf->writeHTML($signature_content, true, false, true, false, '');
 
-// Close and output PDF document
+// Generate a unique filename based on client name and timestamp
+$timestamp = date('YmdHis');
+$filename = 'contract_' . preg_replace('/[^a-zA-Z0-9]/', '_', $name) . '_' . $timestamp . '.pdf';
+$filepath = '../contracts/' . $filename;
+
+// Save a copy to the contracts directory
+$pdf->Output($filepath, 'F');
+
+// Check if this is being called from the CRM system
+$contact_id = isset($_GET['contact_id']) ? intval($_GET['contact_id']) : 0;
+$payment_link_id = isset($_GET['payment_link_id']) ? intval($_GET['payment_link_id']) : 0;
+
+// If contact_id and payment_link_id are provided, save to the contracts table
+if ($contact_id > 0 && $payment_link_id > 0) {
+    // Include database configuration
+    $conn = require_once('../crm/config/db_config.php');
+
+    // Insert into contracts table
+    $sql = "INSERT INTO contracts (contact_id, payment_link_id, file_path) VALUES (?, ?, ?)";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("iis", $contact_id, $payment_link_id, $filename);
+    $stmt->execute();
+
+    // Close the database connection
+    mysqli_close($conn);
+}
+
+// Output the PDF to the browser
 $pdf->Output('contract.pdf', 'I');
 ?>
