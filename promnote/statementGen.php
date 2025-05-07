@@ -17,6 +17,9 @@ $recipient_name = $_POST['recipient_name'] ?? 'N/A';
 $recipient_address1 = $_POST['recipient_address1'] ?? '';
 $recipient_address2 = $_POST['recipient_address2'] ?? '';
 $account_info_name = $_POST['account_info_name'] ?? 'N/A';
+$delinquency_notice = isset($_POST['delinquency_notice']) && !empty($_POST['delinquency_notice'])
+    ? $_POST['delinquency_notice']
+    : '';
 
 // Transaction items (handle array)
 $transactions = $_POST['transactions'] ?? [];
@@ -51,19 +54,31 @@ $image_file = '../assets/images/bullaxiom.png'; // Updated path relative to this
 // Use @ to suppress errors if the image doesn't exist, handle appropriately
 @$pdf->Image($image_file, 15, 15, 40, 0, 'PNG', '', 'T', false, 300, '', false, false, 0, false, false, false);
 $pdf->SetFont('helvetica', '', 10);
-$pdf->SetXY(15, 35); // Adjust Y based on logo height
+$pdf->SetXY(60, 20); // Position address to the right of the logo
 $pdf->MultiCell(55, 10, "BULL AXIOM\n1510 N State Street\nSTE 300\nOrem UT 84057", 0, 'L', 0, 1);
 
 // Statement Date & Account Number (Top Right)
 $pdf->SetFont('helvetica', 'B', 10);
-$pdf->SetXY(140, 15);
+$pdf->SetXY(140, 20); // Moved down to align with company address
 $pdf->Cell(0, 7, 'Statement Date: ' . date("m/d/Y", strtotime($statement_date)), 0, 1, 'R');
-$pdf->SetXY(140, 22);
+$pdf->SetXY(140, 27); // Adjusted to maintain spacing
 $pdf->Cell(0, 7, 'Account Number: ' . $account_number, 0, 1, 'R');
 
-// Recipient Address (Below company address, maybe slight indent)
+// Contact Us Section (Top Right, below account info)
+$pdf->SetFont('helvetica', 'B', 9);
+$pdf->SetXY(140, 37);
+$pdf->Cell(0, 5, 'Contact Us:', 0, 1, 'R');
+$pdf->SetFont('helvetica', '', 8);
+$pdf->SetXY(140, 42);
+$pdf->Cell(0, 5, 'Phone: (801) 555-1234', 0, 1, 'R');
+$pdf->SetXY(140, 47);
+$pdf->Cell(0, 5, 'Email: support@bullaxiom.com', 0, 1, 'R');
+$pdf->SetXY(140, 52);
+$pdf->Cell(0, 5, 'Website: bullaxiom.com', 0, 1, 'R');
+
+// Recipient Address (Left justified, below logo)
 $pdf->SetFont('helvetica', '', 10);
-$pdf->SetXY(75, 55); // Adjust X, Y as needed
+$pdf->SetXY(15, 55); // Left justified, below logo
 $pdf->MultiCell(80, 10, $recipient_name . "\n" . $recipient_address1 . "\n" . $recipient_address2, 0, 'L', 0, 1);
 
 // Account Information Section
@@ -77,82 +92,188 @@ $pdf->Ln(5); // Line break
 // Transaction Activity Table
 $pdf->SetFont('helvetica', 'B', 12);
 $pdf->Cell(0, 10, 'Transaction Activity', 0, 1, 'L');
-$pdf->SetFont('helvetica', '', 9);
-// Table Header
-$pdf->SetFillColor(220, 220, 220);
+
+// Save the Y position before the table
+$startY = $pdf->GetY();
+
+// Calculate table width and position
+$tableWidth = 175; // Total width of the table
+$col1Width = 25;
+$col2Width = 90;
+$col3Width = 30;
+$col4Width = 30;
+
+// Table Header - white background
+$pdf->SetFillColor(255, 255, 255);
 $pdf->SetFont('helvetica', 'B', 9);
-$pdf->Cell(25, 7, 'Date', 1, 0, 'C', 1);
-$pdf->Cell(80, 7, 'Description', 1, 0, 'C', 1);
-$pdf->Cell(30, 7, 'Charges', 1, 0, 'C', 1);
-$pdf->Cell(30, 7, 'Payments', 1, 1, 'C', 1); // Last cell uses ln=1
+$pdf->SetXY(15, $startY);
+
+// Header cells
+$pdf->Cell($col1Width, 7, 'Date', 0, 0, 'C', 1);
+$pdf->Cell($col2Width, 7, 'Description', 0, 0, 'C', 1);
+$pdf->Cell($col3Width, 7, 'Charges', 0, 0, 'C', 1);
+$pdf->Cell($col4Width, 7, 'Payments', 0, 1, 'C', 1); // ln=1
+
 // Table Data Rows
 $pdf->SetFont('helvetica', '', 9);
-$pdf->SetFillColor(255, 255, 255); // White background for data
+$currentY = $startY + 7; // Start after header
+
 foreach ($transactions as $trans) {
     $t_date = date("m/d/y", strtotime($trans['date'] ?? ''));
     $t_desc = $trans['description'] ?? '';
     $t_charges = isset($trans['charges']) ? '$' . number_format((float)$trans['charges'], 2) : '$0.00';
     $t_payments = isset($trans['payments']) ? '$' . number_format((float)$trans['payments'], 2) : '$0.00';
 
-    $pdf->Cell(25, 6, $t_date, 1, 0, 'L', 1);
-    $pdf->Cell(80, 6, $t_desc, 1, 0, 'L', 1);
-    $pdf->Cell(30, 6, $t_charges, 1, 0, 'R', 1);
-    $pdf->Cell(30, 6, $t_payments, 1, 1, 'R', 1); // ln=1
-}
-$pdf->Ln(5);
+    $pdf->SetXY(15, $currentY);
+    $pdf->Cell($col1Width, 6, $t_date, 0, 0, 'C', 0);
+    $pdf->Cell($col2Width, 6, $t_desc, 0, 0, 'L', 0);
+    $pdf->Cell($col3Width, 6, $t_charges, 0, 0, 'R', 0);
+    $pdf->Cell($col4Width, 6, $t_payments, 0, 1, 'R', 0); // ln=1
 
-// Contact Us Section
-$pdf->SetFont('helvetica', 'B', 12);
-$pdf->Cell(0, 10, 'Contact Us', 0, 1, 'L');
-$pdf->SetFont('helvetica', '', 10);
-$pdf->Cell(0, 7, 'Customer Service: 844-402-9466', 0, 1, 'L');
-$pdf->Cell(0, 7, 'Website: https://bullaxiom.com', 0, 1, 'L');
+    $currentY += 6;
+}
+
+// Calculate total table height
+$tableHeight = $currentY - $startY;
+
+// Draw the 3 required lines:
+$pdf->SetDrawColor(0, 0, 0);
+// 1. Top border
+$pdf->Line(15, $startY, 15 + $tableWidth, $startY);
+// 2. Line after header
+$pdf->Line(15, $startY + 7, 15 + $tableWidth, $startY + 7);
+// 3. Bottom border
+$pdf->Line(15, $startY + $tableHeight, 15 + $tableWidth, $startY + $tableHeight);
+// Left and right borders
+$pdf->Line(15, $startY, 15, $startY + $tableHeight); // Left border
+$pdf->Line(15 + $tableWidth, $startY, 15 + $tableWidth, $startY + $tableHeight); // Right border
+
 $pdf->Ln(5);
 
 
 // Past Payments Breakdown Table
 $pdf->SetFont('helvetica', 'B', 12);
 $pdf->Cell(0, 10, 'Past Payments Breakdown', 0, 1, 'L');
-$pdf->SetFont('helvetica', '', 9);
-// Table Header
-$pdf->SetFillColor(220, 220, 220);
+
+// Save the Y position before the table
+$startY = $pdf->GetY();
+
+// Calculate table width and position
+$tableWidth = 175; // Total width of the table
+$col1Width = 65;
+$col2Width = 55;
+$col3Width = 55;
+
+// Table Header - white background
+$pdf->SetFillColor(255, 255, 255);
 $pdf->SetFont('helvetica', 'B', 9);
-$pdf->Cell(65, 7, '', 1, 0, 'C', 1); // Empty top-left cell
-$pdf->Cell(55, 7, 'Paid Since Last Statement', 1, 0, 'C', 1);
-$pdf->Cell(55, 7, 'Paid Year to Date', 1, 1, 'C', 1); // ln=1
+$pdf->SetXY(15, $startY);
+
+// Header cells
+$pdf->Cell($col1Width, 7, '', 0, 0, 'C', 1); // Empty top-left cell
+$pdf->Cell($col2Width, 7, 'Paid Since Last Statement', 0, 0, 'C', 1);
+$pdf->Cell($col3Width, 7, 'Paid Year to Date', 0, 1, 'C', 1); // ln=1
+
 // Table Data Rows
 $pdf->SetFont('helvetica', '', 9);
-$pdf->SetFillColor(255, 255, 255);
+$currentY = $startY + 7; // Start after header
 
-// Helper function for breakdown row
-function addBreakdownRow($pdf, $label, $data, $key) {
-     $val_last = isset($data[$key]['last_statement']) ? '$' . number_format((float)$data[$key]['last_statement'], 2) : '$0.00';
-     $val_ytd = isset($data[$key]['ytd']) ? '$' . number_format((float)$data[$key]['ytd'], 2) : '$0.00';
-     $pdf->Cell(65, 6, $label, 1, 0, 'L', 1);
-     $pdf->Cell(55, 6, $val_last, 1, 0, 'R', 1);
-     $pdf->Cell(55, 6, $val_ytd, 1, 1, 'R', 1); // ln=1
+// Function to add a row without borders
+function addTableRow($pdf, $x, $y, $label, $val1, $val2, $col1Width, $col2Width, $col3Width, $isBold = false, $addAsterisk = false) {
+    if ($isBold) {
+        $pdf->SetFont('helvetica', 'B', 9);
+    } else {
+        $pdf->SetFont('helvetica', '', 9);
+    }
+
+    $pdf->SetXY($x, $y);
+    $displayLabel = $label;
+    if ($addAsterisk) {
+        $displayLabel = $label . '*';
+    }
+    $pdf->Cell($col1Width, 6, $displayLabel, 0, 0, 'L', 0);
+    $pdf->Cell($col2Width, 6, $val1, 0, 0, 'R', 0);
+    $pdf->Cell($col3Width, 6, $val2, 0, 1, 'R', 0);
+
+    return $y + 6; // Return the new Y position
 }
 
-addBreakdownRow($pdf, 'Principal', $payments_breakdown, 'principal');
-addBreakdownRow($pdf, 'Interest', $payments_breakdown, 'interest');
-addBreakdownRow($pdf, 'Escrow (Taxes and Insurance)', $payments_breakdown, 'escrow');
-addBreakdownRow($pdf, 'Other', $payments_breakdown, 'other');
-addBreakdownRow($pdf, 'Fees', $payments_breakdown, 'fees');
-addBreakdownRow($pdf, 'Unapplied Funds', $payments_breakdown, 'unapplied');
-// Total Row - maybe bold
-$pdf->SetFont('helvetica', 'B', 9);
-addBreakdownRow($pdf, 'Total', $payments_breakdown, 'total');
-$pdf->SetFont('helvetica', '', 9); // Reset font
+// Add data rows
+$currentY = addTableRow($pdf, 15, $currentY, 'Principal',
+    isset($payments_breakdown['principal']['last_statement']) ? '$' . number_format((float)$payments_breakdown['principal']['last_statement'], 2) : '$0.00',
+    isset($payments_breakdown['principal']['ytd']) ? '$' . number_format((float)$payments_breakdown['principal']['ytd'], 2) : '$0.00',
+    $col1Width, $col2Width, $col3Width);
 
-$pdf->Ln(5);
+$currentY = addTableRow($pdf, 15, $currentY, 'Interest',
+    isset($payments_breakdown['interest']['last_statement']) ? '$' . number_format((float)$payments_breakdown['interest']['last_statement'], 2) : '$0.00',
+    isset($payments_breakdown['interest']['ytd']) ? '$' . number_format((float)$payments_breakdown['interest']['ytd'], 2) : '$0.00',
+    $col1Width, $col2Width, $col3Width);
 
-// Delinquency Notice (optional, based on PDF)
-$pdf->SetFont('helvetica', 'B', 10);
-$pdf->Cell(0, 7, 'Delinquency Notice', 0, 1, 'L');
+$currentY = addTableRow($pdf, 15, $currentY, 'Other',
+    isset($payments_breakdown['other']['last_statement']) ? '$' . number_format((float)$payments_breakdown['other']['last_statement'], 2) : '$0.00',
+    isset($payments_breakdown['other']['ytd']) ? '$' . number_format((float)$payments_breakdown['other']['ytd'], 2) : '$0.00',
+    $col1Width, $col2Width, $col3Width);
+
+$currentY = addTableRow($pdf, 15, $currentY, 'Fees',
+    isset($payments_breakdown['fees']['last_statement']) ? '$' . number_format((float)$payments_breakdown['fees']['last_statement'], 2) : '$0.00',
+    isset($payments_breakdown['fees']['ytd']) ? '$' . number_format((float)$payments_breakdown['fees']['ytd'], 2) : '$0.00',
+    $col1Width, $col2Width, $col3Width);
+
+$currentY = addTableRow($pdf, 15, $currentY, 'Unapplied Funds',
+    isset($payments_breakdown['unapplied']['last_statement']) ? '$' . number_format((float)$payments_breakdown['unapplied']['last_statement'], 2) : '$0.00',
+    isset($payments_breakdown['unapplied']['ytd']) ? '$' . number_format((float)$payments_breakdown['unapplied']['ytd'], 2) : '$0.00',
+    $col1Width, $col2Width, $col3Width, false, true); // Add asterisk
+
+// Total Row - bold
+$currentY = addTableRow($pdf, 15, $currentY, 'Total',
+    isset($payments_breakdown['total']['last_statement']) ? '$' . number_format((float)$payments_breakdown['total']['last_statement'], 2) : '$0.00',
+    isset($payments_breakdown['total']['ytd']) ? '$' . number_format((float)$payments_breakdown['total']['ytd'], 2) : '$0.00',
+    $col1Width, $col2Width, $col3Width, true);
+
+// Calculate total table height
+$tableHeight = $currentY - $startY;
+
+// Draw the 3 required lines:
+$pdf->SetDrawColor(0, 0, 0);
+// 1. Top border
+$pdf->Line(15, $startY, 15 + $tableWidth, $startY);
+// 2. Line after header
+$pdf->Line(15, $startY + 7, 15 + $tableWidth, $startY + 7);
+// 3. Bottom border
+$pdf->Line(15, $startY + $tableHeight, 15 + $tableWidth, $startY + $tableHeight);
+// Left and right borders
+$pdf->Line(15, $startY, 15, $startY + $tableHeight); // Left border
+$pdf->Line(15 + $tableWidth, $startY, 15 + $tableWidth, $startY + $tableHeight); // Right border
+
+// Add the fine print text below the table
+$pdf->SetXY(15, $currentY + 2);
 $pdf->SetFont('helvetica', '', 8);
-$delinquency_text = "Unapplied funds represent funds that are held in suspense waiting final application. If this amount represents a partial payment, your payment will be applied upon receipt of the amount required to complete your payment.";
-$pdf->MultiCell(0, 5, $delinquency_text, 0, 'L', 0, 1);
+$unapplied_note = "*Unapplied funds represent funds that are held in suspense waiting final application. If this amount represents a partial payment, your payment will be applied upon receipt of the amount required to complete your payment.";
+$pdf->MultiCell($tableWidth, 4, $unapplied_note, 0, 'L', 0, 1);
 
+// Reset Y position after the table
+$pdf->SetY($currentY + 10);
+
+// Delinquency Notice Section
+$pdf->SetFont('helvetica', 'B', 12);
+$pdf->Cell(0, 10, 'Delinquency Notice', 0, 1, 'L');
+
+// Create a bordered box for the delinquency notice
+$startY = $pdf->GetY();
+$boxWidth = 175;
+$boxHeight = 40;
+$pdf->SetDrawColor(0, 0, 0);
+$pdf->Rect(15, $startY, $boxWidth, $boxHeight); // Draw a rectangle (x, y, width, height)
+
+// If delinquency notice is provided, add it to the box
+if (!empty($delinquency_notice)) {
+    $pdf->SetFont('helvetica', '', 10);
+    $pdf->SetXY(20, $startY + 5); // Add some padding inside the box
+    $pdf->MultiCell($boxWidth - 10, 5, $delinquency_notice, 0, 'L', 0, 1);
+}
+
+// Move position after the box
+$pdf->SetY($startY + $boxHeight + 5);
 
 // --- Output the PDF ---
 // Close and output PDF document
