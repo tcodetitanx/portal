@@ -50,16 +50,16 @@ $doc_result = $doc_stmt->get_result();
 if ($doc_result->num_rows === 0) {
     // Generate the NOE if it doesn't exist
     $noe_url = "generate_noe.php?id=$contact_id&type=$noe_type";
-    
+
     // We need to actually generate the NOE by making a request to the URL
     ob_start();
     include($noe_url);
     ob_end_clean();
-    
+
     // Get the newly created document
     $doc_stmt->execute();
     $doc_result = $doc_stmt->get_result();
-    
+
     if ($doc_result->num_rows === 0) {
         echo json_encode(['success' => false, 'message' => 'Failed to generate NOE document. Please try again.']);
         exit();
@@ -83,7 +83,7 @@ $to_email = $contact['email'];
 $message = "
 Dear " . $contact['name'] . ",
 
-Attached is a " . ($noe_type == 'first' ? 'Notice of Error' : 'Final Notice of Error') . " that has been sent to your lender on your behalf. 
+Attached is a " . ($noe_type == 'first' ? 'Notice of Error' : 'Final Notice of Error') . " that has been sent to your lender on your behalf.
 
 This document outlines the legal issues we've identified with your loan and the demands we're making to the lender. Please review it carefully and keep it for your records.
 
@@ -105,12 +105,17 @@ $body .= "Content-Transfer-Encoding: 7bit\r\n\r\n";
 $body .= $message . "\r\n";
 
 // Attachment
-$file_content = file_get_contents($copy_document_path);
-$body .= "--$boundary\r\n";
-$body .= "Content-Type: application/pdf; name=\"" . ($noe_type == 'first' ? 'Notice_of_Error.pdf' : 'Final_Notice_of_Error.pdf') . "\"\r\n";
-$body .= "Content-Disposition: attachment; filename=\"" . ($noe_type == 'first' ? 'Notice_of_Error.pdf' : 'Final_Notice_of_Error.pdf') . "\"\r\n";
-$body .= "Content-Transfer-Encoding: base64\r\n\r\n";
-$body .= chunk_split(base64_encode($file_content));
+if (file_exists($copy_document_path)) {
+    $file_content = file_get_contents($copy_document_path);
+    $body .= "--$boundary\r\n";
+    $body .= "Content-Type: application/pdf; name=\"" . ($noe_type == 'first' ? 'Notice_of_Error.pdf' : 'Final_Notice_of_Error.pdf') . "\"\r\n";
+    $body .= "Content-Disposition: attachment; filename=\"" . ($noe_type == 'first' ? 'Notice_of_Error.pdf' : 'Final_Notice_of_Error.pdf') . "\"\r\n";
+    $body .= "Content-Transfer-Encoding: base64\r\n\r\n";
+    $body .= chunk_split(base64_encode($file_content));
+} else {
+    // If the file doesn't exist, add a note in the email
+    $body .= "\r\n\r\nNOTE: The document could not be attached. Please contact support for assistance.\r\n";
+}
 $body .= "--$boundary--";
 
 // Send email
@@ -125,7 +130,7 @@ if ($mail_sent) {
         $update_stmt->bind_param("i", $contact_id);
         $update_stmt->execute();
     }
-    
+
     echo json_encode(['success' => true, 'message' => ($noe_type == 'first' ? 'Notice of Error' : 'Final Notice of Error') . ' sent successfully to ' . $contact['email']]);
 } else {
     echo json_encode(['success' => false, 'message' => 'Failed to send email. Please try again.']);

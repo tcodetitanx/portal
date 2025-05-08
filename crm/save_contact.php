@@ -21,6 +21,11 @@ function sanitizeInput($conn, $input) {
     return $conn->real_escape_string(trim($input));
 }
 
+// Sanitize address input without trimming spaces between words
+function sanitizeAddressInput($conn, $input) {
+    return $conn->real_escape_string($input);
+}
+
 // Get form data
 $contact_type = sanitizeInput($conn, $_POST['contact_type']);
 $name = sanitizeInput($conn, $_POST['name']);
@@ -28,7 +33,7 @@ $rep = isset($_POST['rep']) ? sanitizeInput($conn, $_POST['rep']) : '';
 $interest_level = isset($_POST['interest_level']) && is_numeric($_POST['interest_level']) ? intval($_POST['interest_level']) : 0;
 $email = isset($_POST['email']) ? sanitizeInput($conn, $_POST['email']) : '';
 $phone_number = isset($_POST['phone_number']) ? sanitizeInput($conn, $_POST['phone_number']) : '';
-$address = isset($_POST['address']) ? sanitizeInput($conn, $_POST['address']) : '';
+$address = isset($_POST['address']) ? sanitizeAddressInput($conn, $_POST['address']) : '';
 $city = isset($_POST['city']) ? sanitizeInput($conn, $_POST['city']) : '';
 $state = isset($_POST['state']) ? sanitizeInput($conn, $_POST['state']) : '';
 $zip = isset($_POST['zip']) ? sanitizeInput($conn, $_POST['zip']) : '';

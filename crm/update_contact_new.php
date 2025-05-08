@@ -21,11 +21,6 @@ function sanitizeInput($conn, $input) {
     return $conn->real_escape_string(trim($input));
 }
 
-// Sanitize address input without trimming spaces between words
-function sanitizeAddressInput($conn, $input) {
-    return $conn->real_escape_string($input);
-}
-
 // Function to check if a column exists in a table
 function columnExists($conn, $table, $column) {
     $sql = "SHOW COLUMNS FROM $table LIKE '$column'";
@@ -73,7 +68,7 @@ foreach ($columns as $column) {
     if (!isset($_POST[$column]) && $column != 'past_due_on_loan') {
         continue;
     }
-
+    
     // Handle special cases
     switch ($column) {
         case 'contact_type':
@@ -81,7 +76,7 @@ foreach ($columns as $column) {
             $updateTypes .= "s";
             $updateValues[] = $contact_type;
             break;
-
+            
         case 'interest_level':
         case 'step':
             $value = isset($_POST[$column]) && is_numeric($_POST[$column]) ? intval($_POST[$column]) : 0;
@@ -89,28 +84,28 @@ foreach ($columns as $column) {
             $updateTypes .= "i";
             $updateValues[] = $value;
             break;
-
+            
         case 'contract_amount':
             $value = isset($_POST[$column]) && is_numeric($_POST[$column]) ? floatval($_POST[$column]) : 0;
             $updateData[$column] = $value;
             $updateTypes .= "d";
             $updateValues[] = $value;
             break;
-
+            
         case 'past_due_on_loan':
             $value = isset($_POST[$column]) && $_POST[$column] == 'Y' ? 'Y' : 'N';
             $updateData[$column] = $value;
             $updateTypes .= "s";
             $updateValues[] = $value;
             break;
-
+            
         case 'lender_id':
             $value = isset($_POST[$column]) && is_numeric($_POST[$column]) ? intval($_POST[$column]) : null;
             $updateData[$column] = $value;
             $updateTypes .= "i";
             $updateValues[] = $value;
             break;
-
+            
         case 'first_noe_tracking_confirmed':
         case 'final_noe_tracking_confirmed':
         case 'suit_filed_tracking_confirmed':
@@ -119,7 +114,7 @@ foreach ($columns as $column) {
             $updateTypes .= "i";
             $updateValues[] = $value;
             break;
-
+            
         case 'initial_contact_date':
         case 'update_date':
         case 'call_back_date':
@@ -134,15 +129,7 @@ foreach ($columns as $column) {
             $updateTypes .= "s";
             $updateValues[] = $value;
             break;
-
-        case 'address':
-            // Handle address field without trimming spaces
-            $value = isset($_POST[$column]) ? sanitizeAddressInput($conn, $_POST[$column]) : '';
-            $updateData[$column] = $value;
-            $updateTypes .= "s";
-            $updateValues[] = $value;
-            break;
-
+            
         default:
             // Handle all other string fields
             $value = isset($_POST[$column]) ? sanitizeInput($conn, $_POST[$column]) : '';

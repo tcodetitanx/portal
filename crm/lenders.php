@@ -22,11 +22,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Add new lender
             $lender_name = sanitizeInput($conn, $_POST['lender_name']);
             $phone_number = sanitizeInput($conn, $_POST['phone_number']);
-            $address = sanitizeInput($conn, $_POST['address']);
+            $street_address = sanitizeInput($conn, $_POST['street_address']);
+            $city = sanitizeInput($conn, $_POST['city']);
+            $state = sanitizeInput($conn, $_POST['state']);
+            $zip = sanitizeInput($conn, $_POST['zip']);
 
-            $sql = "INSERT INTO lenders (lender_name, phone_number, address) VALUES (?, ?, ?)";
+            $sql = "INSERT INTO lenders (lender_name, phone_number, street_address, city, state, zip) VALUES (?, ?, ?, ?, ?, ?)";
             $stmt = $conn->prepare($sql);
-            $stmt->bind_param("sss", $lender_name, $phone_number, $address);
+            $stmt->bind_param("ssssss", $lender_name, $phone_number, $street_address, $city, $state, $zip);
 
             if ($stmt->execute()) {
                 $_SESSION['success'] = "Lender added successfully";
@@ -38,11 +41,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $id = intval($_POST['id']);
             $lender_name = sanitizeInput($conn, $_POST['lender_name']);
             $phone_number = sanitizeInput($conn, $_POST['phone_number']);
-            $address = sanitizeInput($conn, $_POST['address']);
+            $street_address = sanitizeInput($conn, $_POST['street_address']);
+            $city = sanitizeInput($conn, $_POST['city']);
+            $state = sanitizeInput($conn, $_POST['state']);
+            $zip = sanitizeInput($conn, $_POST['zip']);
 
-            $sql = "UPDATE lenders SET lender_name = ?, phone_number = ?, address = ? WHERE id = ?";
+            $sql = "UPDATE lenders SET lender_name = ?, phone_number = ?, street_address = ?, city = ?, state = ?, zip = ? WHERE id = ?";
             $stmt = $conn->prepare($sql);
-            $stmt->bind_param("sssi", $lender_name, $phone_number, $address, $id);
+            $stmt->bind_param("ssssssi", $lender_name, $phone_number, $street_address, $city, $state, $zip, $id);
 
             if ($stmt->execute()) {
                 $_SESSION['success'] = "Lender updated successfully";
@@ -135,19 +141,36 @@ mysqli_close($conn);
                 <form action="lenders.php" method="post">
                     <input type="hidden" name="action" value="add">
                     <div class="row mb-3">
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <label for="lender_name" class="form-label">Lender Name</label>
                             <input type="text" class="form-control" id="lender_name" name="lender_name" required>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <label for="phone_number" class="form-label">Phone Number</label>
                             <input type="text" class="form-control" id="phone_number" name="phone_number">
                         </div>
-                        <div class="col-md-4">
-                            <label for="address" class="form-label">Address</label>
-                            <textarea class="form-control" id="address" name="address" rows="1"></textarea>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-12">
+                            <label for="street_address" class="form-label">Street Address</label>
+                            <input type="text" class="form-control" id="street_address" name="street_address">
                         </div>
                     </div>
+                    <div class="row mb-3">
+                        <div class="col-md-5">
+                            <label for="city" class="form-label">City</label>
+                            <input type="text" class="form-control" id="city" name="city">
+                        </div>
+                        <div class="col-md-3">
+                            <label for="state" class="form-label">State</label>
+                            <input type="text" class="form-control" id="state" name="state">
+                        </div>
+                        <div class="col-md-4">
+                            <label for="zip" class="form-label">ZIP Code</label>
+                            <input type="text" class="form-control" id="zip" name="zip">
+                        </div>
+                    </div>
+
                     <button type="submit" class="btn btn-primary">Add Lender</button>
                 </form>
             </div>
@@ -166,7 +189,10 @@ mysqli_close($conn);
                                     <th>ID</th>
                                     <th>Lender Name</th>
                                     <th>Phone Number</th>
-                                    <th>Address</th>
+                                    <th>Street Address</th>
+                                    <th>City</th>
+                                    <th>State</th>
+                                    <th>ZIP</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
@@ -176,16 +202,22 @@ mysqli_close($conn);
                                         <td><?php echo $lender['id']; ?></td>
                                         <td><?php echo htmlspecialchars($lender['lender_name']); ?></td>
                                         <td><?php echo htmlspecialchars($lender['phone_number']); ?></td>
-                                        <td><?php echo htmlspecialchars($lender['address']); ?></td>
+                                        <td><?php echo htmlspecialchars($lender['street_address']); ?></td>
+                                        <td><?php echo htmlspecialchars($lender['city']); ?></td>
+                                        <td><?php echo htmlspecialchars($lender['state']); ?></td>
+                                        <td><?php echo htmlspecialchars($lender['zip']); ?></td>
                                         <td>
-                                            <button type="button" class="btn btn-sm btn-primary edit-lender-btn" 
+                                            <button type="button" class="btn btn-sm btn-primary edit-lender-btn"
                                                 data-id="<?php echo $lender['id']; ?>"
                                                 data-name="<?php echo htmlspecialchars($lender['lender_name']); ?>"
                                                 data-phone="<?php echo htmlspecialchars($lender['phone_number']); ?>"
-                                                data-address="<?php echo htmlspecialchars($lender['address']); ?>">
+                                                data-street-address="<?php echo htmlspecialchars($lender['street_address']); ?>"
+                                                data-city="<?php echo htmlspecialchars($lender['city']); ?>"
+                                                data-state="<?php echo htmlspecialchars($lender['state']); ?>"
+                                                data-zip="<?php echo htmlspecialchars($lender['zip']); ?>">
                                                 <i class="bi bi-pencil"></i> Edit
                                             </button>
-                                            <button type="button" class="btn btn-sm btn-danger delete-lender-btn" 
+                                            <button type="button" class="btn btn-sm btn-danger delete-lender-btn"
                                                 data-id="<?php echo $lender['id']; ?>"
                                                 data-name="<?php echo htmlspecialchars($lender['lender_name']); ?>">
                                                 <i class="bi bi-trash"></i> Delete
@@ -224,9 +256,24 @@ mysqli_close($conn);
                             <input type="text" class="form-control" id="edit_phone_number" name="phone_number">
                         </div>
                         <div class="mb-3">
-                            <label for="edit_address" class="form-label">Address</label>
-                            <textarea class="form-control" id="edit_address" name="address" rows="3"></textarea>
+                            <label for="edit_street_address" class="form-label">Street Address</label>
+                            <input type="text" class="form-control" id="edit_street_address" name="street_address">
                         </div>
+                        <div class="row mb-3">
+                            <div class="col-md-5">
+                                <label for="edit_city" class="form-label">City</label>
+                                <input type="text" class="form-control" id="edit_city" name="city">
+                            </div>
+                            <div class="col-md-3">
+                                <label for="edit_state" class="form-label">State</label>
+                                <input type="text" class="form-control" id="edit_state" name="state">
+                            </div>
+                            <div class="col-md-4">
+                                <label for="edit_zip" class="form-label">ZIP Code</label>
+                                <input type="text" class="form-control" id="edit_zip" name="zip">
+                            </div>
+                        </div>
+
                     </form>
                 </div>
                 <div class="modal-footer">
@@ -270,24 +317,30 @@ mysqli_close($conn);
                 const id = $(this).data('id');
                 const name = $(this).data('name');
                 const phone = $(this).data('phone');
-                const address = $(this).data('address');
-                
+                const streetAddress = $(this).data('street-address');
+                const city = $(this).data('city');
+                const state = $(this).data('state');
+                const zip = $(this).data('zip');
+
                 $('#edit_id').val(id);
                 $('#edit_lender_name').val(name);
                 $('#edit_phone_number').val(phone);
-                $('#edit_address').val(address);
-                
+                $('#edit_street_address').val(streetAddress);
+                $('#edit_city').val(city);
+                $('#edit_state').val(state);
+                $('#edit_zip').val(zip);
+
                 $('#editLenderModal').modal('show');
             });
-            
+
             // Handle delete lender button
             $('.delete-lender-btn').click(function() {
                 const id = $(this).data('id');
                 const name = $(this).data('name');
-                
+
                 $('#delete_id').val(id);
                 $('#delete_lender_name').text(name);
-                
+
                 $('#deleteLenderModal').modal('show');
             });
         });

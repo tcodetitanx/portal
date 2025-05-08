@@ -117,6 +117,8 @@ mysqli_close($conn);
                 <a href="../portal.php" class="btn btn-secondary">Back to Portal</a>
                 <a href="import_csv.php" class="btn btn-success">Import CSV Data</a>
                 <a href="lenders.php" class="btn btn-info">Manage Lenders</a>
+                <a href="fix_database.php" class="btn btn-warning btn-sm">Fix Database</a>
+                <a href="debug_update.php" class="btn btn-danger btn-sm">Debug</a>
                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addContactModal">
                     Add New Contact
                 </button>

@@ -67,27 +67,27 @@ usort($documents, function($a, $b) {
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_document'])) {
     $document_id = intval($_POST['document_id']);
     $document_type = $_POST['document_type'];
-    
+
     if ($document_type === 'contract') {
         // Extract the actual contract ID from the format "contract_X"
         $contract_id = intval(str_replace('contract_', '', $document_id));
-        
+
         // Get the file path before deleting
         $file_sql = "SELECT file_path FROM contracts WHERE id = ?";
         $file_stmt = $conn->prepare($file_sql);
         $file_stmt->bind_param("i", $contract_id);
         $file_stmt->execute();
         $file_result = $file_stmt->get_result();
-        
+
         if ($file_result->num_rows > 0) {
             $file_row = $file_result->fetch_assoc();
             $file_path = '../contracts/' . $file_row['file_path'];
-            
+
             // Delete the file if it exists
             if (file_exists($file_path)) {
                 unlink($file_path);
             }
-            
+
             // Delete from database
             $delete_sql = "DELETE FROM contracts WHERE id = ?";
             $delete_stmt = $conn->prepare($delete_sql);
@@ -101,22 +101,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_document'])) {
         $file_stmt->bind_param("i", $document_id);
         $file_stmt->execute();
         $file_result = $file_stmt->get_result();
-        
+
         if ($file_result->num_rows > 0) {
             $file_row = $file_result->fetch_assoc();
             $file_path = '../documents/' . $file_row['file_path'];
-            
+
             // Delete the file if it exists
             if (file_exists($file_path)) {
                 unlink($file_path);
             }
-            
+
             // Also delete any copy_view version
             $copy_file_path = '../documents/' . str_replace('.pdf', '_copy_view.pdf', $file_row['file_path']);
             if (file_exists($copy_file_path)) {
                 unlink($copy_file_path);
             }
-            
+
             // Delete from database
             $delete_sql = "DELETE FROM documents WHERE id = ?";
             $delete_stmt = $conn->prepare($delete_sql);
@@ -124,7 +124,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_document'])) {
             $delete_stmt->execute();
         }
     }
-    
+
     // Redirect to refresh the page
     header("Location: view_documents.php?id=$contact_id");
     exit();
@@ -177,9 +177,9 @@ mysqli_close($conn);
                             <div class="card-body text-center">
                                 <i class="bi bi-file-earmark-pdf document-icon"></i>
                                 <h5 class="card-title document-type">
-                                    <?php 
+                                    <?php
                                     $doc_type = str_replace('_', ' ', $document['document_type']);
-                                    echo htmlspecialchars(ucfirst($doc_type)); 
+                                    echo htmlspecialchars(ucfirst($doc_type));
                                     ?>
                                 </h5>
                                 <p class="card-text">
@@ -187,13 +187,23 @@ mysqli_close($conn);
                                 </p>
                                 <div class="d-flex justify-content-center">
                                     <?php if ($document['document_type'] === 'contract'): ?>
-                                        <a href="../contracts/<?php echo htmlspecialchars($document['file_path']); ?>" class="btn btn-primary me-2" target="_blank">View</a>
-                                        <a href="../contracts/<?php echo htmlspecialchars($document['file_path']); ?>" class="btn btn-success me-2" download>Download</a>
+                                        <?php $file_path = '../contracts/' . $document['file_path']; ?>
+                                        <?php if (file_exists($file_path)): ?>
+                                            <a href="<?php echo $file_path; ?>" class="btn btn-primary me-2" target="_blank">View</a>
+                                            <a href="<?php echo $file_path; ?>" class="btn btn-success me-2" download>Download</a>
+                                        <?php else: ?>
+                                            <button type="button" class="btn btn-primary me-2" disabled>File Not Found</button>
+                                        <?php endif; ?>
                                     <?php else: ?>
-                                        <a href="../documents/<?php echo htmlspecialchars($document['file_path']); ?>" class="btn btn-primary me-2" target="_blank">View</a>
-                                        <a href="../documents/<?php echo htmlspecialchars($document['file_path']); ?>" class="btn btn-success me-2" download>Download</a>
+                                        <?php $file_path = '../documents/' . $document['file_path']; ?>
+                                        <?php if (file_exists($file_path)): ?>
+                                            <a href="<?php echo $file_path; ?>" class="btn btn-primary me-2" target="_blank">View</a>
+                                            <a href="<?php echo $file_path; ?>" class="btn btn-success me-2" download>Download</a>
+                                        <?php else: ?>
+                                            <button type="button" class="btn btn-primary me-2" disabled>File Not Found</button>
+                                        <?php endif; ?>
                                     <?php endif; ?>
-                                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteDocumentModal" 
+                                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteDocumentModal"
                                         data-document-id="<?php echo $document['id']; ?>"
                                         data-document-type="<?php echo $document['document_type']; ?>"
                                         data-document-name="<?php echo htmlspecialchars(ucfirst($doc_type)); ?>">
@@ -245,7 +255,7 @@ mysqli_close($conn);
                 const documentId = button.data('document-id');
                 const documentType = button.data('document-type');
                 const documentName = button.data('document-name');
-                
+
                 $('#delete_document_id').val(documentId);
                 $('#delete_document_type').val(documentType);
                 $('#document-type-text').text(documentName);
