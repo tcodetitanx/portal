@@ -51,6 +51,14 @@ while ($rep = $reps_result->fetch_assoc()) {
     $reps[] = $rep;
 }
 
+// Get all lenders for dropdown
+$lenders_sql = "SELECT * FROM lenders ORDER BY lender_name";
+$lenders_result = $conn->query($lenders_sql);
+$lenders = [];
+while ($lender = $lenders_result->fetch_assoc()) {
+    $lenders[] = $lender;
+}
+
 // Close the database connection
 mysqli_close($conn);
 ?>
@@ -123,8 +131,22 @@ mysqli_close($conn);
                     <input type="text" class="form-control" id="edit_phone_number" name="phone_number" value="<?php echo htmlspecialchars($contact['phone_number']); ?>">
                 </div>
                 <div class="col-md-6">
-                    <label for="edit_loan_institution" class="form-label">Loan Institution</label>
+                    <label for="edit_lender_id" class="form-label">Lender</label>
+                    <select class="form-select" id="edit_lender_id" name="lender_id">
+                        <option value="">Select Lender</option>
+                        <?php foreach ($lenders as $lender): ?>
+                            <option value="<?php echo $lender['id']; ?>" <?php echo $contact['lender_id'] == $lender['id'] ? 'selected' : ''; ?>><?php echo htmlspecialchars($lender['lender_name']); ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                    <div class="form-text">If the lender is not in the list, please add it in the <a href="lenders.php" target="_blank">Lenders Management</a> page.</div>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-12">
+                    <label for="edit_loan_institution" class="form-label">Loan Institution (Legacy)</label>
                     <input type="text" class="form-control" id="edit_loan_institution" name="loan_institution" value="<?php echo htmlspecialchars($contact['loan_institution']); ?>">
+                    <div class="form-text">This field is kept for backward compatibility. Please use the Lender dropdown above.</div>
                 </div>
             </div>
 
@@ -333,7 +355,17 @@ mysqli_close($conn);
                     <h5>Contract Actions</h5>
                     <button type="button" class="btn btn-primary me-2" id="update_contract_btn">Update Contract</button>
                     <button type="button" class="btn btn-success me-2" id="send_contract_btn">Send Contract</button>
-                    <button type="button" class="btn btn-info" id="send_docusign_btn">Send Docusign</button>
+                    <button type="button" class="btn btn-info me-2" id="send_docusign_btn">Send Docusign</button>
+                </div>
+            </div>
+
+            <div class="row mb-4">
+                <div class="col-md-12">
+                    <h5>Legal Actions</h5>
+                    <button type="button" class="btn btn-warning me-2" id="send_first_noe_btn">Send NOE</button>
+                    <button type="button" class="btn btn-danger me-2" id="send_final_noe_btn">Send Final NOE</button>
+                    <button type="button" class="btn btn-dark me-2" id="send_lawsuit_btn">Send Law Suit</button>
+                    <a href="view_documents.php?id=<?php echo $contact['id']; ?>" class="btn btn-secondary" target="_blank">View Documents</a>
                 </div>
             </div>
 
@@ -477,6 +509,113 @@ mysqli_close($conn);
                         alert('Error sending Docusign contract. Please try again.');
                     }
                 });
+            }
+        });
+
+        // Handle send first NOE button
+        $('#send_first_noe_btn').click(function() {
+            const contactId = $('input[name="id"]').val();
+
+            // Check if lender is selected
+            if (!$('#edit_lender_id').val() && !$('#edit_loan_institution').val()) {
+                alert('Please select a lender or enter a loan institution before sending a Notice of Error.');
+                return;
+            }
+
+            // Confirm before sending
+            if (confirm('Are you sure you want to generate and send a Notice of Error to this contact?')) {
+                // First, open the NOE in a new window for preview
+                window.open(`generate_noe.php?id=${contactId}&type=first`, '_blank');
+
+                // Then send the email
+                $.ajax({
+                    url: 'send_noe.php',
+                    type: 'POST',
+                    data: {
+                        id: contactId,
+                        type: 'first'
+                    },
+                    success: function(response) {
+                        const result = JSON.parse(response);
+                        if (result.success) {
+                            alert(result.message);
+                        } else {
+                            alert('Error: ' + result.message);
+                        }
+                    },
+                    error: function() {
+                        alert('Error sending Notice of Error. Please try again.');
+                    }
+                });
+            }
+        });
+
+        // Handle send final NOE button
+        $('#send_final_noe_btn').click(function() {
+            const contactId = $('input[name="id"]').val();
+
+            // Check if lender is selected
+            if (!$('#edit_lender_id').val() && !$('#edit_loan_institution').val()) {
+                alert('Please select a lender or enter a loan institution before sending a Final Notice of Error.');
+                return;
+            }
+
+            // Check if first NOE was sent
+            if (!$('#edit_first_noe').val()) {
+                if (!confirm('No initial Notice of Error has been recorded. It is recommended to send the first Notice of Error before sending the Final Notice. Do you want to proceed anyway?')) {
+                    return;
+                }
+            }
+
+            // Confirm before sending
+            if (confirm('Are you sure you want to generate and send a Final Notice of Error to this contact?')) {
+                // First, open the NOE in a new window for preview
+                window.open(`generate_noe.php?id=${contactId}&type=final`, '_blank');
+
+                // Then send the email
+                $.ajax({
+                    url: 'send_noe.php',
+                    type: 'POST',
+                    data: {
+                        id: contactId,
+                        type: 'final'
+                    },
+                    success: function(response) {
+                        const result = JSON.parse(response);
+                        if (result.success) {
+                            alert(result.message);
+                        } else {
+                            alert('Error: ' + result.message);
+                        }
+                    },
+                    error: function() {
+                        alert('Error sending Final Notice of Error. Please try again.');
+                    }
+                });
+            }
+        });
+
+        // Handle send lawsuit button
+        $('#send_lawsuit_btn').click(function() {
+            const contactId = $('input[name="id"]').val();
+
+            // Check if lender is selected
+            if (!$('#edit_lender_id').val() && !$('#edit_loan_institution').val()) {
+                alert('Please select a lender or enter a loan institution before generating a lawsuit document.');
+                return;
+            }
+
+            // Check if final NOE was sent
+            if (!$('#edit_final_noe').val()) {
+                if (!confirm('No Final Notice of Error has been recorded. It is recommended to send the Final Notice of Error before proceeding with a lawsuit. Do you want to proceed anyway?')) {
+                    return;
+                }
+            }
+
+            // Confirm before sending
+            if (confirm('Are you sure you want to generate a lawsuit document for this contact?')) {
+                // Open the lawsuit document in a new window
+                window.open(`generate_lawsuit.php?id=${contactId}`, '_blank');
             }
         });
 

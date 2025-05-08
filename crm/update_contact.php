@@ -39,6 +39,7 @@ $city = isset($_POST['city']) ? sanitizeInput($conn, $_POST['city']) : '';
 $state = isset($_POST['state']) ? sanitizeInput($conn, $_POST['state']) : '';
 $zip = isset($_POST['zip']) ? sanitizeInput($conn, $_POST['zip']) : '';
 $loan_institution = isset($_POST['loan_institution']) ? sanitizeInput($conn, $_POST['loan_institution']) : '';
+$lender_id = isset($_POST['lender_id']) && is_numeric($_POST['lender_id']) ? intval($_POST['lender_id']) : null;
 $step = isset($_POST['step']) && is_numeric($_POST['step']) ? intval($_POST['step']) : 0;
 $past_due_on_loan = isset($_POST['past_due_on_loan']) && $_POST['past_due_on_loan'] == 'Y' ? 'Y' : 'N';
 $additional_notes = isset($_POST['additional_notes']) ? sanitizeInput($conn, $_POST['additional_notes']) : '';
@@ -91,6 +92,7 @@ $sql = "UPDATE contacts SET
     state = ?,
     zip = ?,
     loan_institution = ?,
+    lender_id = ?,
     step = ?,
     past_due_on_loan = ?,
     additional_notes = ?,
@@ -111,7 +113,7 @@ $sql = "UPDATE contacts SET
     WHERE id = ?";
 
 $stmt = $conn->prepare($sql);
-$stmt->bind_param("sssississssssssisssssdsssssssssiiiii",
+$stmt->bind_param("sssississssssssiisssssdsssssssssiiiii",
     $contact_type,
     $name,
     $rep,
@@ -128,6 +130,7 @@ $stmt->bind_param("sssississssssssisssssdsssssssssiiiii",
     $state,
     $zip,
     $loan_institution,
+    $lender_id,
     $step,
     $past_due_on_loan,
     $additional_notes,

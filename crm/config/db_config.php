@@ -151,6 +151,59 @@ if (!mysqli_query($conn, $sql)) {
     die("ERROR: Could not create mail_tracking table. " . mysqli_error($conn));
 }
 
+// Lenders table
+$sql = "CREATE TABLE IF NOT EXISTS lenders (
+    id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    lender_name VARCHAR(255) NOT NULL,
+    phone_number VARCHAR(50),
+    address TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+)";
+
+if (!mysqli_query($conn, $sql)) {
+    die("ERROR: Could not create lenders table. " . mysqli_error($conn));
+}
+
+// Add lender_id column to contacts table if it doesn't exist
+$sql = "SHOW COLUMNS FROM contacts LIKE 'lender_id'";
+$result = mysqli_query($conn, $sql);
+if (mysqli_num_rows($result) == 0) {
+    $sql = "ALTER TABLE contacts ADD COLUMN lender_id INT(11) DEFAULT NULL, ADD FOREIGN KEY (lender_id) REFERENCES lenders(id) ON DELETE SET NULL";
+    if (!mysqli_query($conn, $sql)) {
+        die("ERROR: Could not add lender_id column to contacts table. " . mysqli_error($conn));
+    }
+}
+
+// Documents table for storing document references
+$sql = "CREATE TABLE IF NOT EXISTS documents (
+    id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    contact_id INT(11) NOT NULL,
+    document_type ENUM('contract', 'first_noe', 'final_noe', 'lawsuit', 'other') NOT NULL,
+    file_path VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (contact_id) REFERENCES contacts(id) ON DELETE CASCADE
+)";
+
+if (!mysqli_query($conn, $sql)) {
+    die("ERROR: Could not create documents table. " . mysqli_error($conn));
+}
+
+// State statutes table for Final NOE
+$sql = "CREATE TABLE IF NOT EXISTS state_statutes (
+    id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    state_code VARCHAR(2) NOT NULL,
+    state_name VARCHAR(50) NOT NULL,
+    statute_text LONGTEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    UNIQUE KEY (state_code)
+)";
+
+if (!mysqli_query($conn, $sql)) {
+    die("ERROR: Could not create state_statutes table. " . mysqli_error($conn));
+}
+
 // Return the connection
 return $conn;
 ?>

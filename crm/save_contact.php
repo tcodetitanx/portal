@@ -33,6 +33,7 @@ $city = isset($_POST['city']) ? sanitizeInput($conn, $_POST['city']) : '';
 $state = isset($_POST['state']) ? sanitizeInput($conn, $_POST['state']) : '';
 $zip = isset($_POST['zip']) ? sanitizeInput($conn, $_POST['zip']) : '';
 $loan_institution = isset($_POST['loan_institution']) ? sanitizeInput($conn, $_POST['loan_institution']) : '';
+$lender_id = isset($_POST['lender_id']) && is_numeric($_POST['lender_id']) ? intval($_POST['lender_id']) : null;
 $step = isset($_POST['step']) && is_numeric($_POST['step']) ? intval($_POST['step']) : 0;
 $additional_notes = isset($_POST['additional_notes']) ? sanitizeInput($conn, $_POST['additional_notes']) : '';
 
@@ -45,14 +46,14 @@ if (!in_array($contact_type, ['clients', 'prospects', 'closed'])) {
 
 // Insert the new contact
 $sql = "INSERT INTO contacts (
-    contact_type, name, rep, interest_level, email, phone_number, 
-    address, city, state, zip, loan_institution, step, additional_notes
-) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    contact_type, name, rep, interest_level, email, phone_number,
+    address, city, state, zip, loan_institution, lender_id, step, additional_notes
+) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
 $stmt = $conn->prepare($sql);
-$stmt->bind_param("sssississssis", 
-    $contact_type, $name, $rep, $interest_level, $email, $phone_number, 
-    $address, $city, $state, $zip, $loan_institution, $step, $additional_notes
+$stmt->bind_param("sssississssiis",
+    $contact_type, $name, $rep, $interest_level, $email, $phone_number,
+    $address, $city, $state, $zip, $loan_institution, $lender_id, $step, $additional_notes
 );
 
 if ($stmt->execute()) {

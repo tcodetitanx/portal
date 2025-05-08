@@ -23,9 +23,9 @@ $sort_column = isset($_GET['sort']) ? $_GET['sort'] : 'name';
 $sort_order = isset($_GET['order']) ? $_GET['order'] : 'ASC';
 
 // Validate sort column against allowed columns
-$allowed_columns = ['name', 'rep', 'interest_level', 'initial_contact_date', 'update_date', 
-                   'call_back_date', 'email', 'phone_number', 'address', 'city', 'state', 
-                   'loan_institution', 'step', 'payment_date', 'next_payment_date', 
+$allowed_columns = ['name', 'rep', 'interest_level', 'initial_contact_date', 'update_date',
+                   'call_back_date', 'email', 'phone_number', 'address', 'city', 'state',
+                   'loan_institution', 'step', 'payment_date', 'next_payment_date',
                    'contract_amount', 'first_noe', 'final_noe', 'court_date', 'status'];
 
 if (!in_array($sort_column, $allowed_columns)) {
@@ -50,6 +50,14 @@ $reps_result = $conn->query($reps_sql);
 $reps = [];
 while ($rep = $reps_result->fetch_assoc()) {
     $reps[] = $rep;
+}
+
+// Get all lenders for dropdown
+$lenders_sql = "SELECT * FROM lenders ORDER BY lender_name";
+$lenders_result = $conn->query($lenders_sql);
+$lenders = [];
+while ($lender = $lenders_result->fetch_assoc()) {
+    $lenders[] = $lender;
 }
 
 // Close the database connection
@@ -108,6 +116,7 @@ mysqli_close($conn);
             <div class="col-md-6 text-end">
                 <a href="../portal.php" class="btn btn-secondary">Back to Portal</a>
                 <a href="import_csv.php" class="btn btn-success">Import CSV Data</a>
+                <a href="lenders.php" class="btn btn-info">Manage Lenders</a>
                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addContactModal">
                     Add New Contact
                 </button>
@@ -238,24 +247,24 @@ mysqli_close($conn);
                     </tr>
                 </thead>
                 <tbody>
-                    <?php 
+                    <?php
                     if ($result->num_rows > 0) {
                         while ($row = $result->fetch_assoc()) {
                             echo "<tr>";
                             echo "<td>" . htmlspecialchars($row['name']) . "</td>";
                             echo "<td>" . htmlspecialchars($row['rep']) . "</td>";
-                            
+
                             if ($contact_type != 'clients') {
                                 echo "<td>" . htmlspecialchars($row['interest_level']) . "</td>";
                             }
-                            
+
                             echo "<td>" . htmlspecialchars($row['phone_number']) . "</td>";
                             echo "<td>" . htmlspecialchars($row['email']) . "</td>";
-                            
+
                             if ($contact_type == 'clients') {
                                 echo "<td>" . ($row['payment_date'] ? htmlspecialchars($row['payment_date']) : '') . "</td>";
                                 echo "<td>" . ($row['next_payment_date'] ? htmlspecialchars($row['next_payment_date']) : '') . "</td>";
-                                
+
                                 // First NOE with color coding
                                 $first_noe_class = '';
                                 if ($row['first_noe']) {
@@ -263,7 +272,7 @@ mysqli_close($conn);
                                     $today = new DateTime();
                                     $diff = $today->diff($first_noe_date);
                                     $days_diff = $diff->days;
-                                    
+
                                     if ($today < $first_noe_date || $days_diff <= 20) {
                                         $first_noe_class = 'date-warning';
                                     } else {
@@ -271,7 +280,7 @@ mysqli_close($conn);
                                     }
                                 }
                                 echo "<td class='" . $first_noe_class . "'>" . ($row['first_noe'] ? htmlspecialchars($row['first_noe']) : '') . "</td>";
-                                
+
                                 // Final NOE with color coding
                                 $final_noe_class = '';
                                 if ($row['final_noe']) {
@@ -279,7 +288,7 @@ mysqli_close($conn);
                                     $today = new DateTime();
                                     $diff = $today->diff($final_noe_date);
                                     $days_diff = $diff->days;
-                                    
+
                                     if ($today < $final_noe_date || $days_diff <= 20) {
                                         $final_noe_class = 'date-warning';
                                     } else {
@@ -290,7 +299,7 @@ mysqli_close($conn);
                             } else {
                                 echo "<td>" . ($row['initial_contact_date'] ? htmlspecialchars($row['initial_contact_date']) : '') . "</td>";
                                 echo "<td>" . ($row['call_back_date'] ? htmlspecialchars($row['call_back_date']) : '') . "</td>";
-                                
+
                                 if ($contact_type == 'prospects') {
                                     echo "<td>";
                                     // Step indicators
@@ -301,7 +310,7 @@ mysqli_close($conn);
                                     echo "</td>";
                                 }
                             }
-                            
+
                             echo "<td><i class='fas fa-pen edit-icon' data-bs-toggle='modal' data-bs-target='#editContactModal' data-id='" . $row['id'] . "'></i></td>";
                             echo "</tr>";
                         }
@@ -385,9 +394,22 @@ mysqli_close($conn);
                         </div>
                         <div class="row mb-3">
                             <div class="col-md-6">
-                                <label for="loan_institution" class="form-label">Loan Institution</label>
-                                <input type="text" class="form-control" id="loan_institution" name="loan_institution">
+                                <label for="lender_id" class="form-label">Lender</label>
+                                <select class="form-select" id="lender_id" name="lender_id">
+                                    <option value="">Select Lender</option>
+                                    <?php foreach ($lenders as $lender): ?>
+                                        <option value="<?php echo $lender['id']; ?>"><?php echo htmlspecialchars($lender['lender_name']); ?></option>
+                                    <?php endforeach; ?>
+                                </select>
+                                <div class="form-text">If the lender is not in the list, please add it in the <a href="lenders.php" target="_blank">Lenders Management</a> page.</div>
                             </div>
+                            <div class="col-md-6">
+                                <label for="loan_institution" class="form-label">Loan Institution (Legacy)</label>
+                                <input type="text" class="form-control" id="loan_institution" name="loan_institution">
+                                <div class="form-text">This field is kept for backward compatibility. Please use the Lender dropdown above.</div>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
                             <div class="col-md-6">
                                 <label for="step" class="form-label">Step</label>
                                 <select class="form-select" id="step" name="step">
@@ -439,7 +461,7 @@ mysqli_close($conn);
             $('.edit-icon').click(function() {
                 const contactId = $(this).data('id');
                 $('#editContactContent').html('Loading...');
-                
+
                 // Load contact details via AJAX
                 $.ajax({
                     url: 'get_contact.php',
